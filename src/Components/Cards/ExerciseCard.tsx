@@ -1,22 +1,22 @@
-
 import './ExerciseCard.css';
+import type { Exercicio } from '../../types/exercicio';
 
-export default function ExerciseCard({ exercicio }) {
-  // Exemplo de fallback para dados se a prop vier vazia
-  const {
-    nome,
-    grupoMuscular,
-    equipamento,
-    nivel,
-    seriesRecomendadas,
-    repeticoes,
-    gif
-  } = exercicio || {};
+interface ExerciseCardProps {
+  exercicio?: Exercicio;
+}
+
+export default function ExerciseCard({ exercicio }: ExerciseCardProps) {
+  const nome = exercicio?.nome ?? 'Exercício';
+  const grupoMuscular = exercicio?.grupoMuscular ?? 'Grupo';
+  const equipamento = exercicio?.equipamento ?? 'Equipamento';
+  const nivel = exercicio?.nivel ?? 'Nível';
+  const seriesRecomendadas = exercicio?.seriesRecomendadas ?? '3';
+  const repeticoes = exercicio?.repeticoes ?? '10';
+  const gif = exercicio?.gif;
 
   return (
     <div className="wolf-exercise-card">
       <div className="wolf-card-content">
-        {/* Banner / GIF do Exercício */}
         <div className="wolf-media-container">
           {gif ? (
             <img src={gif} alt={nome} className="wolf-exercise-gif" />
@@ -26,7 +26,6 @@ export default function ExerciseCard({ exercicio }) {
           <span className="wolf-badge-group">{grupoMuscular}</span>
         </div>
 
-        {/* Informações do Exercício */}
         <div className="wolf-exercise-info">
           <h3 className="wolf-exercise-title">{nome}</h3>
 

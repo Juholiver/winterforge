@@ -1,0 +1,201 @@
+/* ==========================================================================
+   MODAL DE TREINOS SALVOS - ESTILO CIBERNÉTICO/NEON
+   ========================================================================== */
+
+.wolf-modal-overlay {
+  position: fixed;
+  inset: 0; /* Substitui top, left, right, bottom: 0 */
+  background-color: rgba(5, 8, 12, 0.82);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  animation: wolfFadeIn 0.25s ease-out forwards;
+}
+
+.wolf-modal-content {
+  background: #0f1319;
+  border: 1px solid rgba(0, 210, 255, 0.25);
+  border-radius: 20px;
+  width: 100%;
+  max-width: 520px;
+  box-shadow: 
+    0 20px 50px rgba(0, 0, 0, 0.8),
+    0 0 25px rgba(0, 210, 255, 0.12);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: wolfPopIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Header */
+.wolf-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  background: rgba(22, 27, 34, 0.5);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.wolf-modal-header h3 {
+  margin: 0;
+  color: #00d2ff;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-shadow: 0 0 12px rgba(0, 210, 255, 0.3);
+}
+
+.wolf-btn-close {
+  background: transparent;
+  border: none;
+  color: #64748b;
+  font-size: 1.25rem;
+  line-height: 1;
+  padding: 4px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.wolf-btn-close:hover {
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+  transform: rotate(90deg);
+}
+
+/* Corpo e Lista */
+.wolf-modal-body {
+  padding: 20px 24px;
+  max-height: 400px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Scrollbar Personalizada */
+.wolf-modal-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.wolf-modal-body::-webkit-scrollbar-track {
+  background: rgba(15, 19, 25, 0.5);
+}
+
+.wolf-modal-body::-webkit-scrollbar-thumb {
+  background: rgba(0, 210, 255, 0.2);
+  border-radius: 4px;
+}
+
+.wolf-modal-body::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 210, 255, 0.4);
+}
+
+.wolf-empty-msg {
+  text-align: center;
+  color: #64748b;
+  padding: 32px 16px;
+  font-size: 0.95rem;
+}
+
+/* Item de Treino */
+.wolf-treino-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(22, 27, 34, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 14px;
+  padding: 14px 18px;
+  transition: all 0.25s ease;
+}
+
+.wolf-treino-card:hover {
+  border-color: rgba(0, 210, 255, 0.3);
+  background: rgba(22, 27, 34, 0.95);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.wolf-treino-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.wolf-treino-info h4 {
+  margin: 0;
+  color: #f1f5f9;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.wolf-treino-info small {
+  color: #64748b;
+  font-size: 0.78rem;
+}
+
+/* Ações */
+.wolf-treino-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.wolf-btn-load {
+  background: #00d2ff;
+  color: #0f1319;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.wolf-btn-load:hover {
+  background: #33ddff;
+  box-shadow: 0 0 12px rgba(0, 210, 255, 0.4);
+  transform: translateY(-1px);
+}
+
+.wolf-btn-delete {
+  background: rgba(239, 68, 68, 0.12);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.wolf-btn-delete:hover {
+  background: #ef4444;
+  color: #ffffff;
+  border-color: #ef4444;
+  box-shadow: 0 0 12px rgba(239, 68, 68, 0.35);
+  transform: translateY(-1px);
+}
+
+/* Animações de Entrada */
+@keyframes wolfFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes wolfPopIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}

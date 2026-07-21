@@ -1,23 +1,57 @@
 /* ==========================================================================
+   DESIGN SYSTEM & TOKENS (TEMA CIBERNÉTICO / WOLF)
+   ========================================================================== */
+:root {
+  /* Cores Base */
+  --wolf-bg-page: #0a0e14;
+  --wolf-bg-surface: rgba(15, 19, 25, 0.85);
+  --wolf-bg-card: rgba(22, 27, 34, 0.85);
+  --wolf-bg-card-hover: rgba(28, 35, 45, 0.95);
+  
+  /* Cores de Destaque / Neon */
+  --wolf-cyan: #00d2ff;
+  --wolf-cyan-glow: rgba(0, 210, 255, 0.35);
+  --wolf-cyan-soft: rgba(0, 210, 255, 0.12);
+  --wolf-emerald: #10b981;
+  --wolf-emerald-soft: rgba(16, 185, 129, 0.15);
+  
+  /* Tipografia & Texto */
+  --wolf-text-main: #f1f5f9;
+  --wolf-text-muted: #94a3b8;
+  --wolf-text-subtle: #64748b;
+  
+  /* Bordas e Divisores */
+  --wolf-border-glow: rgba(0, 210, 255, 0.18);
+  --wolf-border-subtle: rgba(255, 255, 255, 0.07);
+  
+  /* Efeitos & Sombras */
+  --wolf-radius-lg: 20px;
+  --wolf-radius-md: 14px;
+  --wolf-radius-sm: 8px;
+  --wolf-transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  --wolf-blur: blur(16px);
+}
+
+/* ==========================================================================
    1. CONTAINER PRINCIPAL E LAYOUT
    ========================================================================== */
 .wolf-page-container {
   min-height: 100vh;
-  padding: 48px 32px; /* Aumentado de 40px 24px */
+  padding: clamp(24px, 5vw, 48px) clamp(16px, 4vw, 32px);
   max-width: 1440px;
   margin: 0 auto;
   box-sizing: border-box;
-  color: #f1f5f9;
+  color: var(--wolf-text-main);
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   display: flex;
   flex-direction: column;
-  gap: 36px; /* Espaçamento global entre blocos principais */
+  gap: 36px;
 }
 
 /* Structural Layout Wrapper (Main Content vs Drawer) */
 .wolf-content-wrapper {
   display: flex;
-  gap: 40px; /* Aumentado de 32px para afastar a Ficha/Hero do Grid */
+  gap: 40px;
   align-items: flex-start;
   width: 100%;
 }
@@ -26,14 +60,14 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 36px; /* Aumentado de 28px */
+  gap: 36px;
   min-width: 0; /* Previne overflow de flexbox com CSS Grids internos */
 }
 
 /* Wrapper do Hero no topo */
 .wolf-hero-ficha-wrapper {
   width: 100%;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 
 /* ==========================================================================
@@ -41,7 +75,7 @@
    ========================================================================== */
 .wolf-header {
   text-align: center;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
 }
 
 .wolf-title {
@@ -49,17 +83,17 @@
   font-weight: 800;
   letter-spacing: 2px;
   color: #ffffff;
-  margin: 0 0 12px 0;
+  margin: 0 0 10px 0;
   text-transform: uppercase;
 }
 
 .wolf-title span {
-  color: #00d2ff;
-  text-shadow: 0 0 18px rgba(0, 210, 255, 0.45);
+  color: var(--wolf-cyan);
+  text-shadow: 0 0 20px var(--wolf-cyan-glow);
 }
 
 .wolf-subtitle {
-  color: #94a3b8;
+  color: var(--wolf-text-muted);
   font-size: clamp(0.85rem, 1.5vw, 1rem);
   margin: 0;
   line-height: 1.5;
@@ -69,21 +103,22 @@
    3. PAINEL DE FILTROS & BUSCA
    ========================================================================== */
 .wolf-filter-panel {
-  background: rgba(15, 19, 25, 0.75);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(0, 210, 255, 0.15);
-  border-radius: 20px;
-  padding: 24px 28px; /* Aumentado padding interno */
+  background: var(--wolf-bg-surface);
+  backdrop-filter: var(--wolf-blur);
+  -webkit-backdrop-filter: var(--wolf-blur);
+  border: 1px solid var(--wolf-border-glow);
+  border-radius: var(--wolf-radius-lg);
+  padding: 24px 28px;
   display: flex;
   flex-direction: column;
-  gap: 24px; /* Mais espaço entre a Busca e as Categorias */
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
-  transition: border-color 0.3s ease;
+  gap: 24px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transition: var(--wolf-transition);
 }
 
 .wolf-filter-panel:hover {
-  border-color: rgba(0, 210, 255, 0.25);
+  border-color: rgba(0, 210, 255, 0.35);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 210, 255, 0.08);
 }
 
 /* Input de Pesquisa */
@@ -91,42 +126,42 @@
   display: flex;
   align-items: center;
   gap: 14px;
-  background-color: rgba(22, 27, 34, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 14px;
-  padding: 14px 20px; /* Aumentado para respiro do input */
-  transition: all 0.3s ease;
+  background-color: var(--wolf-bg-card);
+  border: 1px solid var(--wolf-border-subtle);
+  border-radius: var(--wolf-radius-md);
+  padding: 14px 20px;
+  transition: var(--wolf-transition);
 }
 
 .wolf-search-box:focus-within {
-  border-color: #00d2ff;
-  box-shadow: 0 0 16px rgba(0, 210, 255, 0.2);
-  background-color: rgba(22, 27, 34, 0.95);
+  border-color: var(--wolf-cyan);
+  box-shadow: 0 0 20px var(--wolf-cyan-glow);
+  background-color: rgba(22, 27, 34, 0.98);
 }
 
 .wolf-search-icon {
   width: 20px;
   height: 20px;
-  fill: #64748b;
+  fill: var(--wolf-text-subtle);
   flex-shrink: 0;
-  transition: fill 0.3s ease;
+  transition: fill 0.25s ease;
 }
 
 .wolf-search-box:focus-within .wolf-search-icon {
-  fill: #00d2ff;
+  fill: var(--wolf-cyan);
 }
 
 .wolf-search-input {
-  background: none;
+  background: transparent;
   border: none;
   outline: none;
-  color: #f1f5f9;
+  color: var(--wolf-text-main);
   width: 100%;
   font-size: 0.95rem;
 }
 
 .wolf-search-input::placeholder {
-  color: #64748b;
+  color: var(--wolf-text-subtle);
 }
 
 /* Grupos de Filtro & Chips */
@@ -139,46 +174,51 @@
 .wolf-filter-label {
   font-size: 0.8rem;
   font-weight: 700;
-  color: #94a3b8;
+  color: var(--wolf-text-muted);
   min-width: 130px;
   text-transform: uppercase;
-  letter-spacing: 0.8px;
+  letter-spacing: 1px;
   flex-shrink: 0;
-  padding-top: 6px; /* Alinha visualmente com o primeiro chip */
+  padding-top: 6px;
 }
 
 .wolf-chips-container {
   display: flex;
-  gap: 10px; /* Aumentado de 8px */
+  gap: 10px;
   flex-wrap: wrap;
   align-items: center;
 }
 
 .wolf-chip {
-  background-color: rgba(30, 41, 59, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  color: #94a3b8;
-  padding: 8px 18px; /* Aumentado levemente */
-  border-radius: 20px;
+  background-color: rgba(30, 41, 59, 0.4);
+  border: 1px solid var(--wolf-border-subtle);
+  color: var(--wolf-text-muted);
+  padding: 8px 18px;
+  border-radius: 30px;
   font-size: 0.82rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: var(--wolf-transition);
   user-select: none;
 }
 
 .wolf-chip:hover {
-  background-color: rgba(51, 65, 85, 0.8);
+  background-color: rgba(51, 65, 85, 0.7);
   color: #ffffff;
-  border-color: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.18);
+  transform: translateY(-1px);
 }
 
 .wolf-chip.active {
-  background-color: #00d2ff;
-  color: #0f1319;
+  background-color: var(--wolf-cyan);
+  color: #080c10;
   font-weight: 700;
-  border-color: #00d2ff;
-  box-shadow: 0 0 14px rgba(0, 210, 255, 0.4);
+  border-color: var(--wolf-cyan);
+  box-shadow: 0 0 16px var(--wolf-cyan-glow);
+}
+
+.wolf-chip:active {
+  transform: scale(0.96);
 }
 
 /* ==========================================================================
@@ -187,7 +227,7 @@
 .wolf-grid-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 32px; /* Aumentado de 28px para afastar os cards entre si */
+  gap: 32px;
   justify-items: center;
   width: 100%;
 }
@@ -195,7 +235,7 @@
 .wolf-card-item-container {
   display: flex;
   flex-direction: column;
-  gap: 14px; /* Aumentado de 10px para descolar o card do botão abaixo */
+  gap: 14px;
   align-items: center;
   width: 100%;
   max-width: 280px;
@@ -204,15 +244,15 @@
 /* Botão de Adicionar à Ficha */
 .wolf-btn-add-card {
   width: 100%;
-  background-color: rgba(22, 27, 34, 0.9);
-  border: 1px solid rgba(0, 210, 255, 0.3);
-  color: #00d2ff;
-  padding: 12px 16px; /* Unificado e ampliado */
-  border-radius: 12px;
+  background-color: var(--wolf-bg-card);
+  border: 1px solid rgba(0, 210, 255, 0.25);
+  color: var(--wolf-cyan);
+  padding: 12px 16px;
+  border-radius: var(--wolf-radius-md);
   font-weight: 600;
   font-size: 0.84rem;
   cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: var(--wolf-transition);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -220,19 +260,24 @@
 }
 
 .wolf-btn-add-card:hover:not(:disabled) {
-  background-color: #00d2ff;
-  color: #0f1319;
-  border-color: #00d2ff;
-  box-shadow: 0 0 16px rgba(0, 210, 255, 0.45);
+  background-color: var(--wolf-cyan);
+  color: #080c10;
+  border-color: var(--wolf-cyan);
+  box-shadow: 0 0 20px var(--wolf-cyan-glow);
   transform: translateY(-2px);
+}
+
+.wolf-btn-add-card:active:not(:disabled) {
+  transform: translateY(0) scale(0.98);
 }
 
 .wolf-btn-add-card.added {
   border-color: rgba(16, 185, 129, 0.4);
-  color: #10b981;
-  background-color: rgba(16, 185, 129, 0.12);
+  color: var(--wolf-emerald);
+  background-color: var(--wolf-emerald-soft);
   cursor: default;
   transform: none;
+  box-shadow: none;
 }
 
 /* Sem Resultados / Loading */
@@ -240,11 +285,11 @@
   grid-column: 1 / -1;
   text-align: center;
   padding: 80px 20px;
-  color: #64748b;
+  color: var(--wolf-text-subtle);
   font-size: 1rem;
   background: rgba(15, 19, 25, 0.4);
-  border: 1px dashed rgba(255, 255, 255, 0.08);
-  border-radius: 20px;
+  border: 1px dashed var(--wolf-border-subtle);
+  border-radius: var(--wolf-radius-lg);
   width: 100%;
 }
 
@@ -269,14 +314,13 @@
 /* Tablets em Modo Retrato (<= 768px) */
 @media (max-width: 768px) {
   .wolf-page-container {
-    padding: 28px 18px;
     gap: 28px;
   }
 
   .wolf-filter-panel {
-    padding: 18px 20px;
+    padding: 20px;
     border-radius: 16px;
-    gap: 18px;
+    gap: 20px;
   }
 
   .wolf-filter-group {
@@ -291,7 +335,7 @@
   }
 
   .wolf-grid-container {
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     gap: 24px;
   }
 }
@@ -310,8 +354,19 @@
   .wolf-chips-container {
     width: 100%;
     overflow-x: auto;
-    padding-bottom: 8px;
+    padding-bottom: 10px;
     flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Scrollbar discreta nos chips do mobile */
+  .wolf-chips-container::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  .wolf-chips-container::-webkit-scrollbar-thumb {
+    background: var(--wolf-cyan-soft);
+    border-radius: 4px;
   }
 
   .wolf-chip {

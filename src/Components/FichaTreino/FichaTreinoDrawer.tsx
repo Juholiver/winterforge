@@ -1,107 +1,125 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
+import ModalMeusTreinos from './ModalMeusTreinos';
 import './FichaTreinoDrawer.css';
+import type { CampoSerieReps, ExercicioFicha, TreinoSalvo } from '../../types/exercicio';
 
-export default function FichaTreinoDrawer({ 
-  exerciciosFicha, 
-  onRemover, 
+interface FichaTreinoDrawerProps {
+  exerciciosFicha: ExercicioFicha[];
+  onRemover: (id: ExercicioFicha['id']) => void;
+  onLimpar: () => void;
+  onAtualizarSerieReps: (id: ExercicioFicha['id'], campo: CampoSerieReps, valor: string) => void;
+  onCarregarFichaCompleta?: (exercicios: ExercicioFicha[]) => void;
+}
+
+export default function FichaTreinoDrawer({
+  exerciciosFicha,
+  onRemover,
   onLimpar,
-  onAtualizarSerieReps 
-}) {
+  onAtualizarSerieReps,
+  onCarregarFichaCompleta,
+}: FichaTreinoDrawerProps) {
   const [nomeTreino, setNomeTreino] = useState('Treino A - Hipertrofia');
-  const [salvoFeedback, setSalvoFeedback] = useState(false);
+  const [modalAberto, setModalAberto] = useState(false);
 
-  // Carrega nome do treino salvo
-  useEffect(() => {
-    const salvo = localStorage.getItem('@wolf:nomeTreino');
-    if (salvo) setNomeTreino(salvo);
-  }, []);
+  const handleSalvarNoHistorico = () => {
+    if (exerciciosFicha.length === 0) return;
 
-  const handleSalvar = () => {
-    localStorage.setItem('@wolf:fichaTreino', JSON.stringify(exerciciosFicha));
-    localStorage.setItem('@wolf:nomeTreino', nomeTreino);
-    
-    setSalvoFeedback(true);
-    setTimeout(() => setSalvoFeedback(false), 2500);
+    const historicoAtual = JSON.parse(localStorage.getItem('@wolf:historicoFichas') || '[]') as TreinoSalvo[];
+
+    const novoTreino: TreinoSalvo = {
+      id: Date.now(),
+      nome: nomeTreino.trim() || 'Treino sem nome',
+      data: new Date().toLocaleDateString('pt-BR'),
+      exercicios: exerciciosFicha,
+    };
+
+    const novoHistorico = [novoTreino, ...historicoAtual];
+    localStorage.setItem('@wolf:historicoFichas', JSON.stringify(novoHistorico));
+
+    alert('Treino salvo no seu histórico!');
+  };
+
+  const handleCarregarTreinoSelecionado = (treinoSalvo: TreinoSalvo) => {
+    setNomeTreino(treinoSalvo.nome);
+    if (onCarregarFichaCompleta) {
+      onCarregarFichaCompleta(treinoSalvo.exercicios);
+    }
   };
 
   return (
-    <aside className="wolf-drawer-container">
+    <section className="wolf-drawer-container">
       <div className="wolf-drawer-header">
-        <input 
-          type="text" 
-          value={nomeTreino} 
+        <input
+          type="text"
+          value={nomeTreino}
           onChange={(e) => setNomeTreino(e.target.value)}
           className="wolf-drawer-title-input"
-          placeholder="Nome do Treino..."
         />
-        <span className="wolf-drawer-badge">{exerciciosFicha.length} ex.</span>
+
+        <button className="wolf-btn-history" onClick={() => setModalAberto(true)}>
+          📂 Ver Treinos Salvos
+        </button>
       </div>
 
       <div className="wolf-drawer-body">
         {exerciciosFicha.length === 0 ? (
           <div className="wolf-drawer-empty">
-            <p>Sua ficha está vazia.</p>
-            <small>Clique em <strong>+ Ficha</strong> nos cards para montar seu treino.</small>
+            <p>Sua ficha ainda está vazia.</p>
+            <small>Adicione exercícios na biblioteca para montar seu treino.</small>
           </div>
         ) : (
           exerciciosFicha.map((item) => (
-            <div key={item.id} className="wolf-drawer-item">
+            <article key={String(item.id)} className="wolf-drawer-item">
               <div className="wolf-drawer-item-info">
-                <h4>{item.nome}</h4>
+                <h4>{item.nome ?? 'Exercício'}</h4>
                 <div className="wolf-drawer-inputs">
                   <label>
-                    Séries:
-                    <input 
-                      type="text" 
-                      value={item.seriesCustom || item.seriesRecomendadas || '3'} 
+                    Séries
+                    <input
+                      type="number"
+                      min="1"
+                      value={item.seriesCustom}
                       onChange={(e) => onAtualizarSerieReps(item.id, 'seriesCustom', e.target.value)}
                     />
                   </label>
                   <label>
-                    Reps:
-                    <input 
-                      type="text" 
-                      value={item.repsCustom || item.repeticoes || '10'} 
+                    Reps
+                    <input
+                      type="number"
+                      min="1"
+                      value={item.repsCustom}
                       onChange={(e) => onAtualizarSerieReps(item.id, 'repsCustom', e.target.value)}
                     />
                   </label>
                 </div>
               </div>
 
-              <button 
-                className="wolf-btn-remove-item" 
+              <button
+                className="wolf-btn-remove-item"
                 onClick={() => onRemover(item.id)}
-                title="Remover exercício"
+                aria-label={`Remover ${item.nome ?? 'exercício'}`}
               >
                 ✕
               </button>
-            </div>
+            </article>
           ))
         )}
       </div>
 
-      {salvoFeedback && (
-        <div className="wolf-drawer-alert">
-          ⚡ Ficha salva no seu navegador!
-        </div>
-      )}
-
       <div className="wolf-drawer-footer">
-        <button 
-          className="wolf-btn-save" 
-          onClick={handleSalvar}
-          disabled={exerciciosFicha.length === 0}
-        >
-          Salvar no LocalStorage
+        <button className="wolf-btn-save" onClick={handleSalvarNoHistorico} disabled={exerciciosFicha.length === 0}>
+          Salvar Ficha
         </button>
-        <button 
-          className="wolf-btn-clear" 
-          onClick={onLimpar}
-          disabled={exerciciosFicha.length === 0}
-        >
+        <button className="wolf-btn-clear" onClick={onLimpar} disabled={exerciciosFicha.length === 0}>
           Limpar
         </button>
       </div>
-    </aside>
+
+      <ModalMeusTreinos
+        isOpen={modalAberto}
+        onClose={() => setModalAberto(false)}
+        onCarregarTreino={handleCarregarTreinoSelecionado}
+      />
+    </section>
   );
 }

@@ -46,8 +46,27 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 12px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   padding-bottom: 14px;
+}
+
+.wolf-btn-history {
+  background: rgba(0, 210, 255, 0.12);
+  color: #00d2ff;
+  border: 1px solid rgba(0, 210, 255, 0.24);
+  border-radius: 999px;
+  padding: 10px 14px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.wolf-btn-history:hover {
+  background: rgba(0, 210, 255, 0.2);
+  transform: translateY(-1px);
 }
 
 .wolf-drawer-title-input {
@@ -318,6 +337,21 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
+  }
+
+  .wolf-btn-history {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .wolf-drawer-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .wolf-btn-remove-item {
+    margin-left: 0;
   }
 
   .wolf-drawer-footer {
