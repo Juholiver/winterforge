@@ -1,0 +1,146 @@
+/* Base do Card - Dimensões ampliadas */
+.wolf-exercise-card {
+  position: relative;
+  width: 280px; 
+  height: 380px; 
+  background: linear-gradient(137deg, #bdc3c7 0%, #2c3e50 50%, #00d2ff 100%);
+  transition: 0.3s ease;
+  border-radius: 26px;
+  filter: drop-shadow(0px 0px 20px rgba(0, 210, 255, 0.3));
+}
+
+.wolf-exercise-card::after {
+  content: '';
+  background-color: #0f1319; /* Grafite profundo interior */
+  position: absolute;
+  z-index: 1;
+  transition: 0.3s ease;
+  height: 98.5%;
+  width: 98.5%;
+  top: 0.75%;
+  left: 0.75%;
+  border-radius: 24px;
+}
+
+.wolf-exercise-card:hover {
+  filter: drop-shadow(0px 0px 25px rgba(0, 210, 255, 0.75));
+  transform: translateY(-6px);
+}
+
+/* Conteúdo sobre o pseudoelemento ::after */
+.wolf-card-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 12px;
+  box-sizing: border-box;
+}
+
+/* Container de Mídia/GIF - Destaque Principal */
+.wolf-media-container {
+  position: relative;
+  width: 100%;
+  height: 200px; 
+  border-radius: 18px;
+  overflow: hidden;
+  background-color: #161b22;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.wolf-exercise-gif {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.wolf-media-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #64748b;
+  font-size: 0.85em;
+}
+
+/* Badge do Grupo Muscular */
+.wolf-badge-group {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: rgba(15, 19, 25, 0.85);
+  backdrop-filter: blur(4px);
+  color: #00d2ff;
+  border: 1px solid rgba(0, 210, 255, 0.4);
+  font-size: 0.75em;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Informações do Exercício */
+.wolf-exercise-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+  padding: 12px 6px 4px 6px;
+}
+
+.wolf-exercise-title {
+  color: #f1f5f9;
+  font-size: 1.05em; 
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.25;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Grid de Séries e Repetições */
+.wolf-details-grid {
+  display: flex;
+  justify-content: space-between;
+  background-color: rgba(22, 27, 34, 0.6);
+  border-radius: 10px;
+  padding: 8px 12px;
+  margin: 10px 0;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.wolf-detail-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.wolf-detail-label {
+  font-size: 0.7em;
+  color: #64748b;
+  text-transform: uppercase;
+}
+
+.wolf-detail-value {
+  font-size: 0.85em;
+  color: #e2e8f0;
+  font-weight: 600;
+}
+
+/* Tags Inferiores (Equipamento / Nível) */
+.wolf-tags {
+  display: flex;
+  gap: 8px;
+}
+
+.wolf-tag {
+  font-size: 0.7em;
+  color: #94a3b8;
+  background-color: rgba(30, 41, 59, 0.5);
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}

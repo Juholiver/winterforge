@@ -1,0 +1,161 @@
+/* Container Principal */
+.wolf-page-container {
+  min-height: 100vh;
+  padding: 40px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  color: #f1f5f9;
+}
+
+/* Cabeçalho */
+.wolf-header {
+  text-align: center;
+  margin-bottom: 35px;
+}
+
+.wolf-title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #ffffff;
+  margin: 0 0 8px 0;
+}
+
+.wolf-title span {
+  color: #00d2ff;
+  text-shadow: 0 0 15px rgba(0, 210, 255, 0.4);
+}
+
+.wolf-subtitle {
+  color: #64748b;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* Painel de Filtros (Efeito Vidro) */
+.wolf-filter-panel {
+  background-color: rgba(15, 19, 25, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 24px;
+  margin-bottom: 35px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+/* Input de Pesquisa */
+.wolf-search-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: rgba(22, 27, 34, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 10px 16px;
+  transition: all 0.3s ease;
+}
+
+.wolf-search-box:focus-within {
+  border-color: #00d2ff;
+  box-shadow: 0 0 12px rgba(0, 210, 255, 0.25);
+}
+
+.wolf-search-icon {
+  width: 20px;
+  height: 20px;
+  fill: #64748b;
+}
+
+.wolf-search-input {
+  background: none;
+  border: none;
+  outline: none;
+  color: #f1f5f9;
+  width: 100%;
+  font-size: 0.95rem;
+}
+
+.wolf-search-input::placeholder {
+  color: #64748b;
+}
+
+/* Grupos de Botões (Chips) */
+.wolf-filter-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.wolf-filter-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #94a3b8;
+  min-width: 130px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.wolf-chips-container {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.wolf-chip {
+  background-color: rgba(30, 41, 59, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  color: #94a3b8;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.wolf-chip:hover {
+  background-color: rgba(51, 65, 85, 0.8);
+  color: #ffffff;
+}
+
+.wolf-chip.active {
+  background-color: #00d2ff;
+  color: #0f1319;
+  font-weight: 600;
+  border-color: #00d2ff;
+  box-shadow: 0 0 12px rgba(0, 210, 255, 0.4);
+}
+
+/* Grid de Cards */
+.wolf-grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 24px;
+  justify-items: center;
+}
+
+.wolf-no-results {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 0;
+  color: #64748b;
+  font-size: 1rem;
+}
+
+/* Responsividade */
+@media (max-width: 640px) {
+  .wolf-filter-group {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .wolf-filter-label {
+    min-width: auto;
+  }
+}
