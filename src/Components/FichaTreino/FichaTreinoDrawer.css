@@ -1,0 +1,332 @@
+/* ==========================================================================
+   1. HERO BANNER CONTAINER
+   ========================================================================== */
+.wolf-drawer-container {
+  position: relative;
+  background: radial-gradient(
+    circle at top right,
+    rgba(0, 210, 255, 0.08) 0%,
+    rgba(15, 19, 25, 0.95) 60%,
+    rgba(10, 14, 20, 0.98) 100%
+  );
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 210, 255, 0.25);
+  border-radius: 24px;
+  padding: 24px 28px;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-shadow: 
+    0 20px 50px rgba(0, 0, 0, 0.7),
+    0 0 30px rgba(0, 210, 255, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+}
+
+/* Brilho suave superior */
+.wolf-drawer-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #00d2ff, transparent);
+  opacity: 0.6;
+}
+
+/* ==========================================================================
+   2. CABEÇALHO DO HERO (TÍTULO E BADGE)
+   ========================================================================== */
+.wolf-drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding-bottom: 14px;
+}
+
+.wolf-drawer-title-input {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: #f1f5f9;
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  outline: none;
+  width: 100%;
+  max-width: 320px;
+  transition: all 0.3s ease;
+}
+
+.wolf-drawer-title-input:focus {
+  color: #00d2ff;
+  border-bottom-color: #00d2ff;
+  text-shadow: 0 0 10px rgba(0, 210, 255, 0.3);
+}
+
+.wolf-drawer-badge {
+  background: linear-gradient(135deg, rgba(0, 210, 255, 0.2), rgba(0, 210, 255, 0.05));
+  border: 1px solid rgba(0, 210, 255, 0.4);
+  color: #00d2ff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 0 12px rgba(0, 210, 255, 0.2);
+}
+
+/* ==========================================================================
+   3. GRID DE EXERCÍCIOS DA FICHA
+   ========================================================================== */
+.wolf-drawer-body {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 14px;
+  max-height: 260px;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
+/* Estilização Customizada do Scrollbar */
+.wolf-drawer-body::-webkit-scrollbar {
+  width: 5px;
+}
+
+.wolf-drawer-body::-webkit-scrollbar-track {
+  background: rgba(15, 19, 25, 0.5);
+  border-radius: 10px;
+}
+
+.wolf-drawer-body::-webkit-scrollbar-thumb {
+  background: rgba(0, 210, 255, 0.3);
+  border-radius: 10px;
+}
+
+.wolf-drawer-body::-webkit-scrollbar-thumb:hover {
+  background: #00d2ff;
+}
+
+/* Estado Vazio */
+.wolf-drawer-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 36px 16px;
+  color: #64748b;
+  background: rgba(10, 14, 20, 0.4);
+  border: 1px dashed rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+}
+
+.wolf-drawer-empty p {
+  margin: 0 0 6px 0;
+  font-size: 0.95rem;
+  color: #94a3b8;
+}
+
+.wolf-drawer-empty small {
+  font-size: 0.8rem;
+}
+
+.wolf-drawer-empty strong {
+  color: #00d2ff;
+}
+
+/* ==========================================================================
+   4. ITEM COMPACTO DA FICHA
+   ========================================================================== */
+.wolf-drawer-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(18, 24, 33, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  padding: 12px 16px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.wolf-drawer-item:hover {
+  background: rgba(22, 30, 43, 0.9);
+  border-color: rgba(0, 210, 255, 0.35);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+.wolf-drawer-item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.wolf-drawer-item-info h4 {
+  margin: 0;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 170px;
+}
+
+.wolf-drawer-inputs {
+  display: flex;
+  gap: 12px;
+}
+
+.wolf-drawer-inputs label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.wolf-drawer-inputs input {
+  width: 36px;
+  height: 24px;
+  background: rgba(10, 14, 20, 0.9);
+  border: 1px solid rgba(0, 210, 255, 0.25);
+  border-radius: 6px;
+  color: #00d2ff;
+  text-align: center;
+  font-size: 0.78rem;
+  font-weight: 700;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.wolf-drawer-inputs input:focus {
+  border-color: #00d2ff;
+  box-shadow: 0 0 8px rgba(0, 210, 255, 0.4);
+}
+
+.wolf-btn-remove-item {
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+  border-radius: 8px;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+  margin-left: 10px;
+  flex-shrink: 0;
+}
+
+.wolf-btn-remove-item:hover {
+  background: #ef4444;
+  border-color: #ef4444;
+  color: #ffffff;
+  box-shadow: 0 0 12px rgba(239, 68, 68, 0.4);
+}
+
+/* Feedback de Sucesso */
+.wolf-drawer-alert {
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  color: #10b981;
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-align: center;
+  padding: 10px;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.15);
+}
+
+/* ==========================================================================
+   5. RODAPÉ E AÇÕES DO HERO
+   ========================================================================== */
+.wolf-drawer-footer {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 16px;
+}
+
+.wolf-btn-save {
+  background: linear-gradient(135deg, #00d2ff 0%, #0088ff 100%);
+  color: #080c10;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 12px;
+  font-weight: 800;
+  font-size: 0.88rem;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 20px rgba(0, 210, 255, 0.35);
+}
+
+.wolf-btn-save:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(0, 210, 255, 0.55);
+}
+
+.wolf-btn-save:disabled,
+.wolf-btn-clear:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.wolf-btn-clear {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.wolf-btn-clear:hover:not(:disabled) {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: rgba(239, 68, 68, 0.5);
+}
+
+/* ==========================================================================
+   6. RESPONSIVIDADE DO HERO
+   ========================================================================== */
+@media (max-width: 640px) {
+  .wolf-drawer-container {
+    padding: 18px;
+    border-radius: 18px;
+  }
+
+  .wolf-drawer-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .wolf-drawer-footer {
+    flex-direction: column;
+  }
+
+  .wolf-btn-save,
+  .wolf-btn-clear {
+    width: 100%;
+    max-width: none;
+  }
+}

@@ -1,12 +1,19 @@
-import  { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
 import ExerciseCard from "../../Components/Cards/ExerciseCard";
+import FichaTreinoDrawer from "../../Components/FichaTreino/FichaTreinoDrawer";
 import './ListaExercicios.css';
 
 export default function ListaExercicios() {
   const [exercicios, setExercicios] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  // Estado da Ficha de Treino inicializado direto do localStorage
+  const [ficha, setFicha] = useState(() => {
+    const salvo = localStorage.getItem('@wolf:fichaTreino');
+    return salvo ? JSON.parse(salvo) : [];
+  });
 
   // Estados dos Filtros
   const [busca, setBusca] = useState('');
@@ -21,12 +28,8 @@ export default function ListaExercicios() {
     const fetchExercicios = async () => {
       try {
         setLoading(true);
-        // Pegando a URL da variável do .env
         const API_URL = import.meta.env.VITE_API_URL; 
-        
         const response = await axios.get(API_URL);
-        
-        // Se a resposta for um array direto ou vier dentro de .data
         setExercicios(response.data);
       } catch (err) {
         console.error("Erro ao buscar exercícios:", err);
@@ -38,6 +41,37 @@ export default function ListaExercicios() {
 
     fetchExercicios();
   }, []);
+
+  // Funções de manipulação da Ficha
+  const handleAdicionarFicha = (exercicio) => {
+    const jaExiste = ficha.some((item) => item.id === exercicio.id);
+    if (jaExiste) return;
+
+    const novoItem = {
+      ...exercicio,
+      seriesCustom: exercicio.seriesRecomendadas || '3',
+      repsCustom: exercicio.repeticoes || '10'
+    };
+
+    setFicha((prev) => [...prev, novoItem]);
+  };
+
+  const handleRemoverFicha = (id) => {
+    setFicha((prev) => prev.filter((item) => item.id !== id));
+  };
+
+  const handleLimparFicha = () => {
+    setFicha([]);
+    localStorage.removeItem('@wolf:fichaTreino');
+  };
+
+  const handleAtualizarSerieReps = (id, campo, valor) => {
+    setFicha((prev) =>
+      prev.map((item) =>
+        item.id === id ? { ...item, [campo]: valor } : item
+      )
+    );
+  };
 
   // Lógica de Filtragem no Front-end
   const exerciciosFiltrados = useMemo(() => {
@@ -63,6 +97,14 @@ export default function ListaExercicios() {
         </h1>
         <p className="wolf-subtitle">Explore, filtre e monte seus treinos com precisão.</p>
       </header>
+
+      {/* Componente Ficha Lateral */}
+        <FichaTreinoDrawer 
+          exerciciosFicha={ficha}
+          onRemover={handleRemoverFicha}
+          onLimpar={handleLimparFicha}
+          onAtualizarSerieReps={handleAtualizarSerieReps}
+        />
 
       {/* Painel de Filtros */}
       <section className="wolf-filter-panel">
@@ -112,32 +154,48 @@ export default function ListaExercicios() {
         </div>
       </section>
 
-      {/* Grid com Estados de Loading, Erro e Sucesso */}
-      <main className="wolf-grid-container">
-        {loading && (
-          <div className="wolf-no-results">
-            <p>Carregando exercícios...</p>
-          </div>
-        )}
+      {/* Wrapper Principal Lado a Lado (Grid + Drawer) */}
+      <div className="wolf-content-wrapper">
+        <main className="wolf-grid-container">
+          {loading && (
+            <div className="wolf-no-results">
+              <p>Carregando exercícios...</p>
+            </div>
+          )}
 
-        {error && !loading && (
-          <div className="wolf-no-results" style={{ color: '#ef4444' }}>
-            <p>{error}</p>
-          </div>
-        )}
+          {error && !loading && (
+            <div className="wolf-no-results" style={{ color: '#ef4444' }}>
+              <p>{error}</p>
+            </div>
+          )}
 
-        {!loading && !error && exerciciosFiltrados.length > 0 && (
-          exerciciosFiltrados.map((exercicio) => (
-            <ExerciseCard key={exercicio.id} exercicio={exercicio} />
-          ))
-        )}
+          {!loading && !error && exerciciosFiltrados.length > 0 && (
+            exerciciosFiltrados.map((exercicio) => {
+              const estaNaFicha = ficha.some((f) => f.id === exercicio.id);
+              return (
+                <div key={exercicio.id} className="wolf-card-item-container">
+                  <ExerciseCard exercicio={exercicio} />
+                  <button
+                    className={`wolf-btn-add-card ${estaNaFicha ? 'added' : ''}`}
+                    onClick={() => handleAdicionarFicha(exercicio)}
+                    disabled={estaNaFicha}
+                  >
+                    {estaNaFicha ? '✓ Na Ficha' : '+ Adicionar à Ficha'}
+                  </button>
+                </div>
+              );
+            })
+          )}
 
-        {!loading && !error && exerciciosFiltrados.length === 0 && (
-          <div className="wolf-no-results">
-            <p>Nenhum exercício encontrado com os filtros aplicados.</p>
-          </div>
-        )}
-      </main>
+          {!loading && !error && exerciciosFiltrados.length === 0 && (
+            <div className="wolf-no-results">
+              <p>Nenhum exercício encontrado com os filtros aplicados.</p>
+            </div>
+          )}
+        </main>
+
+        
+      </div>
     </div>
   );
 }
