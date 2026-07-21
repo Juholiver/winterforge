@@ -52,7 +52,7 @@ export function Login() {
               </button>
             </div>
 
-            <button type="button" className="wolf-btn-forgot">
+            <button type="button" className="wolf-btn-forgot" onClick={() => navigate('/exercicios')}>
               Entrar sem Login
             </button>
           </form>

@@ -1,87 +1,258 @@
-
-import './SingUp.css';
-import Logo from '../../../public/Logo.png'
-import { useNavigate } from 'react-router-dom';
+import { useState } from "react";
+import "./SingUp.css";
+import Logo from "../../../public/Logo.png";
+import { useNavigate } from "react-router-dom";
+import { register } from "../../Services/authService";
 
 export default function SignUpForm() {
-
   const navigate = useNavigate();
+
+  const [nome, setNome] = useState("");
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
+  const [confirmarSenha, setConfirmarSenha] = useState("");
+
+  const [loading, setLoading] = useState(false);
+  const [erro, setErro] = useState("");
+  const [sucesso, setSucesso] = useState("");
+
+  async function handleSubmit(
+    event: React.FormEvent<HTMLFormElement>
+  ) {
+    event.preventDefault();
+
+    setErro("");
+    setSucesso("");
+
+    // Validação do nome
+    if (nome.trim().length < 3) {
+      setErro("O nome deve ter pelo menos 3 caracteres.");
+      return;
+    }
+
+    // Validação da senha
+    if (senha.length < 6) {
+      setErro("A senha deve ter pelo menos 6 caracteres.");
+      return;
+    }
+
+    // Confirmação da senha
+    if (senha !== confirmarSenha) {
+      setErro("As senhas não são iguais.");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const data = await register({
+        nome: nome.trim(),
+        email: email.trim(),
+        senha: senha,
+      });
+
+      console.log("Cadastro realizado:", data);
+
+      setSucesso("Cadastro realizado com sucesso!");
+
+      // Limpa o formulário
+      setNome("");
+      setEmail("");
+      setSenha("");
+      setConfirmarSenha("");
+
+      // Depois de 2 segundos vai para o login
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
+
+    } catch (error: any) {
+      console.error("Erro ao cadastrar:", error);
+
+      if (error.response) {
+        setErro(
+          error.response.data?.message ||
+          "Não foi possível realizar o cadastro."
+        );
+      } else {
+        setErro(
+          "Não foi possível conectar com a API."
+        );
+      }
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
     <div className="wolf-form-wrapper">
       <div className="wolf-card">
         <div className="wolf-card-inner">
-          <form className="wolf-form" onSubmit={(e) => e.preventDefault()}>
-            
-            {/* Título */}
-            <p id="wolf-heading">Cadastrar-se</p>
 
-            {/* CONTAINER DO LOGO */}
-            <div className='wolf-logo-container'>
-                <img src={Logo} alt="Logo do Projeto" className="wolf-logo-img"/>
+          <form
+            className="wolf-form"
+            onSubmit={handleSubmit}
+          >
+
+            {/* Título */}
+            <p id="wolf-heading">
+              Cadastrar-se
+            </p>
+
+            {/* Logo */}
+            <div className="wolf-logo-container">
+              <img
+                src={Logo}
+                alt="Logo do Projeto"
+                className="wolf-logo-img"
+              />
             </div>
 
-            {/* Campo Usuário */}
+            {/* Mensagem de erro */}
+            {erro && (
+              <div className="wolf-error">
+                {erro}
+              </div>
+            )}
+
+            {/* Mensagem de sucesso */}
+            {sucesso && (
+              <div className="wolf-success">
+                {sucesso}
+              </div>
+            )}
+
+            {/* Nome */}
             <div className="wolf-field">
-              <svg viewBox="0 0 16 16" fill="currentColor" className="wolf-input-icon">
+
+              <svg
+                viewBox="0 0 16 16"
+                fill="currentColor"
+                className="wolf-input-icon"
+              >
                 <path d="M13.106 7.222c0-2.967-2.249-5.032-5.482-5.032-3.35 0-5.646 2.318-5.646 5.702 0 3.493 2.235 5.708 5.762 5.708.862 0 1.689-.123 2.304-.335v-.862c-.43.199-1.354.328-2.29.328-2.926 0-4.813-1.88-4.813-4.798 0-2.844 1.921-4.881 4.594-4.881 2.735 0 4.608 1.688 4.608 4.156 0 1.682-.554 2.769-1.416 2.769-.492 0-.772-.28-.772-.76V5.206H8.923v.834h-.11c-.266-.595-.881-.964-1.6-.964-1.4 0-2.378 1.162-2.378 2.823 0 1.737.957 2.906 2.379 2.906.8 0 1.415-.39 1.709-1.087h.11c.081.67.703 1.148 1.503 1.148 1.572 0 2.57-1.415 2.57-3.643zm-7.177.704c0-1.197.54-1.907 1.456-1.907.93 0 1.524.738 1.524 1.907S8.308 9.84 7.371 9.84c-.895 0-1.442-.725-1.442-1.914z" />
               </svg>
+
               <input
                 type="text"
+                name="nome"
                 className="wolf-input-field"
                 placeholder="Username"
-                autoComplete="off"
+                autoComplete="name"
+                value={nome}
+                onChange={(e) =>
+                  setNome(e.target.value)
+                }
+                required
               />
+
             </div>
 
-            {/* Campo E-mail */}
+            {/* E-mail */}
             <div className="wolf-field">
-              <svg viewBox="0 0 16 16" fill="currentColor" className="wolf-input-icon">
-                <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z"/>
+
+              <svg
+                viewBox="0 0 16 16"
+                fill="currentColor"
+                className="wolf-input-icon"
+              >
+                <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z" />
               </svg>
+
               <input
                 type="email"
+                name="email"
                 className="wolf-input-field"
                 placeholder="E-mail"
-                autoComplete="off"
+                autoComplete="email"
+                value={email}
+                onChange={(e) =>
+                  setEmail(e.target.value)
+                }
+                required
               />
+
             </div>
 
-            {/* Campo Senha */}
+            {/* Senha */}
             <div className="wolf-field">
-              <svg viewBox="0 0 16 16" fill="currentColor" className="wolf-input-icon">
+
+              <svg
+                viewBox="0 0 16 16"
+                fill="currentColor"
+                className="wolf-input-icon"
+              >
                 <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z" />
               </svg>
+
               <input
                 type="password"
+                name="senha"
                 className="wolf-input-field"
                 placeholder="Password"
+                autoComplete="new-password"
+                value={senha}
+                onChange={(e) =>
+                  setSenha(e.target.value)
+                }
+                minLength={6}
+                required
               />
+
             </div>
 
-            {/* Campo Confirmar Senha */}
+            {/* Confirmar Senha */}
             <div className="wolf-field">
-              <svg viewBox="0 0 16 16" fill="currentColor" className="wolf-input-icon">
-                <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z" />
+
+              <svg
+                viewBox="0 0 16 16"
+                fill="currentColor"
+                className="wolf-input-icon"
+              >
+                <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 0-2 2v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z" />
               </svg>
+
               <input
                 type="password"
+                name="confirmarSenha"
                 className="wolf-input-field"
                 placeholder="Confirm Password"
+                autoComplete="new-password"
+                value={confirmarSenha}
+                onChange={(e) =>
+                  setConfirmarSenha(e.target.value)
+                }
+                minLength={6}
+                required
               />
+
             </div>
 
             {/* Botões */}
             <div className="wolf-btn-group">
-              <button type="submit" className="wolf-btn wolf-btn-primary">
-                Registrar
+
+              <button
+                type="submit"
+                className="wolf-btn wolf-btn-primary"
+                disabled={loading}
+              >
+                {loading
+                  ? "Registrando..."
+                  : "Registrar"}
               </button>
-              <button type="button" className="wolf-btn wolf-btn-secondary" onClick={() => navigate('/')}>
+
+              <button
+                type="button"
+                className="wolf-btn wolf-btn-secondary"
+                onClick={() => navigate("/")}
+              >
                 Login
               </button>
+
             </div>
 
           </form>
+
         </div>
       </div>
     </div>
