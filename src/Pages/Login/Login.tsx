@@ -3,17 +3,83 @@ import "./Login.css";
 import Logo from "../../../public/Logo.png";
 import { useNavigate } from "react-router-dom";
 
-import {
-  login as loginApi,
-} from "../../Services/authService";
+import { login as loginApi, type UserProfile } from "../../Services/authService";
+import { useAuth } from "../../Context/AuthContext";
 
-import {
-  useAuth,
-} from "../../Context/AuthContext";
+const parseUserFromToken = (
+  token: string
+): UserProfile | null => {
+  try {
+    const parts = token.split(".");
+
+    if (parts.length !== 3) {
+      console.error("JWT inválido");
+      return null;
+    }
+
+    const base64Url = parts[1];
+
+    const base64 = base64Url
+      .replace(/-/g, "+")
+      .replace(/_/g, "/");
+
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split("")
+        .map(
+          (c) =>
+            "%" +
+            ("00" +
+              c.charCodeAt(0).toString(16)
+            ).slice(-2)
+        )
+        .join("")
+    );
+
+    const decoded = JSON.parse(jsonPayload);
+
+    console.log(
+      "CLAIMS DO JWT:",
+      decoded
+    );
+
+    // Claims padrão gerados pelo .NET
+    const id =
+      decoded[
+        "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
+      ];
+
+    const nome =
+      decoded[
+        "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"
+      ];
+
+    const email =
+      decoded[
+        "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"
+      ];
+
+    return {
+      id,
+      nome,
+      name: nome,
+      email,
+    };
+
+  } catch (error) {
+
+    console.error(
+      "Erro ao decodificar JWT:",
+      error
+    );
+
+    return null;
+  }
+};
+
 
 export function Login() {
   const navigate = useNavigate();
-
   const { login } = useAuth();
 
   // Estados dos inputs
@@ -24,91 +90,85 @@ export function Login() {
   const [erro, setErro] = useState("");
   const [loading, setLoading] = useState(false);
 
-  async function handleSubmit(
-    event: FormEvent<HTMLFormElement>
-  ) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setErro("");
 
-  setErro("");
+    if (!email || !senha) {
+      setErro("Preencha o e-mail e a senha.");
+      return;
+    }
 
-  if (!email || !senha) {
-    setErro("Preencha o e-mail e a senha.");
-    return;
-  }
+    setLoading(true);
 
-  setLoading(true);
+    try {
+      // Chama a API
+      const response = await loginApi({
+        email,
+        senha,
+      });
 
-  try {
+      console.log("Resposta da API:", response);
+      
 
-    // Chama a API
-    const response = await loginApi({
-      email,
-      senha,
-    });
+      // Trata diferentes estruturas para extrair o token e o usuário
+      const token = response.token || response.data?.token || response.data?.data?.token || response.accessToken;
+      console.log("TOKEN JWT:", token);
+      const responseUser = response.user || response.data?.user || response.data?.data?.user || response.data?.usuario;
+      const parsedUser = token ? parseUserFromToken(token) : null;
+      console.log("USUÁRIO EXTRAÍDO DO TOKEN:", parsedUser);
+      const user = responseUser || parsedUser;
 
-    console.log(
-      "Resposta da API:",
-      response
-    );
+      if (!token) {
+        setErro("Não foi possível obter o token de acesso.");
+        return;
+      }
 
-    // Pega o token
-    const token = response.data.token;
+      // Salva os dados do usuário para serem usados no Perfil
+      if (user) {
+        localStorage.setItem("@wolf:user", JSON.stringify(user));
+      }
 
-    // Salva através do AuthContext
-    login(token);
+      // Salva o token no AuthContext e no localStorage
+      login(token);
 
-    console.log(
-      "Usuário autenticado!"
-    );
+      console.log("Usuário autenticado com sucesso!");
 
-    // Redireciona
-    navigate("/perfil");
+      // Redireciona para o perfil
+      navigate("/perfil");
+    } catch (error: unknown) {
+      console.error("Erro no login:", error);
 
-  } catch (error: unknown) {
-    console.error("Erro no login:", error);
-
-    type AxiosErrorLike = {
-      response?: {
-        data?: {
-          message?: string;
+      type AxiosErrorLike = {
+        response?: {
+          data?: {
+            message?: string;
+          };
         };
       };
-    };
 
-    const axiosError = error as AxiosErrorLike;
+      const axiosError = error as AxiosErrorLike;
 
-    if (axiosError?.response) {
-      setErro(
-        axiosError.response.data?.message ||
-        "E-mail ou senha inválidos."
-      );
-    } else {
-      setErro("Não foi possível conectar com a API.");
+      if (axiosError?.response) {
+        setErro(
+          axiosError.response.data?.message || "E-mail ou senha inválidos."
+        );
+      } else {
+        setErro("Não foi possível conectar com a API.");
+      }
+    } finally {
+      setLoading(false);
     }
-  } finally {
-
-    setLoading(false);
-
   }
-}
 
   return (
     <div className="wolf-form-wrapper">
       <div className="wolf-card">
         <div className="wolf-card-inner">
-
-          <form
-            className="wolf-form"
-            onSubmit={handleSubmit}
-          >
-
+          <form className="wolf-form" onSubmit={handleSubmit}>
             {/* LOGO */}
             <div className="wolf-logo-container">
-              <img
-                src={Logo}
-                alt="Logo do Projeto"
-                className="wolf-logo-img"
-              />
+              <img src={Logo} alt="Logo do Projeto" className="wolf-logo-img" />
             </div>
 
             <p id="wolf-heading">
@@ -116,15 +176,10 @@ export function Login() {
             </p>
 
             {/* MENSAGEM DE ERRO */}
-            {erro && (
-              <div className="wolf-error">
-                {erro}
-              </div>
-            )}
+            {erro && <div className="wolf-error">{erro}</div>}
 
             {/* EMAIL */}
             <div className="wolf-field">
-
               <svg
                 viewBox="0 0 16 16"
                 fill="currentColor"
@@ -140,17 +195,13 @@ export function Login() {
                 placeholder="Email"
                 autoComplete="email"
                 value={email}
-                onChange={(event) =>
-                  setEmail(event.target.value)
-                }
+                onChange={(event) => setEmail(event.target.value)}
                 required
               />
-
             </div>
 
             {/* SENHA */}
             <div className="wolf-field">
-
               <svg
                 viewBox="0 0 16 16"
                 fill="currentColor"
@@ -166,25 +217,19 @@ export function Login() {
                 placeholder="Password"
                 autoComplete="current-password"
                 value={senha}
-                onChange={(event) =>
-                  setSenha(event.target.value)
-                }
+                onChange={(event) => setSenha(event.target.value)}
                 required
               />
-
             </div>
 
             {/* BOTÕES */}
             <div className="wolf-btn-group">
-
               <button
                 type="submit"
                 className="wolf-btn wolf-btn-primary"
                 disabled={loading}
               >
-                {loading
-                  ? "Entrando..."
-                  : "Login"}
+                {loading ? "Entrando..." : "Login"}
               </button>
 
               <button
@@ -194,7 +239,6 @@ export function Login() {
               >
                 Cadastre-se
               </button>
-
             </div>
 
             {/* ENTRAR SEM LOGIN */}
@@ -205,9 +249,7 @@ export function Login() {
             >
               Entrar sem Login
             </button>
-
           </form>
-
         </div>
       </div>
     </div>

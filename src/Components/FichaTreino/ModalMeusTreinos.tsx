@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import './ModalMeusTreinos.css';
 import type { TreinoSalvo } from '../../types/exercicio';
 

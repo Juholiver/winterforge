@@ -62,7 +62,7 @@ export const FichaTreino: React.FC<FichaTreinoProps> = ({
               <div className="wolf-ficha-item-info">
                 <strong>{item.nome}</strong>
                 <span>
-                  {item.grupoMuscular} • {item.series} x {item.repeticoes}
+                  {item.grupoMuscular} • {item.seriesCustom} x {item.repsCustom}
                 </span>
               </div>
               <button
