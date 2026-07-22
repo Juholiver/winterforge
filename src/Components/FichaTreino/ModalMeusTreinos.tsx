@@ -22,20 +22,12 @@ const readHistorico = (): TreinoSalvo[] => {
 export default function ModalMeusTreinos({ isOpen, onClose, onCarregarTreino }: ModalMeusTreinosProps) {
   const [historico, setHistorico] = useState<TreinoSalvo[]>(() => readHistorico());
 
-  useEffect(() => {
-    if (!isOpen) return;
-
-    setHistorico(readHistorico());
-    const handleStorage = () => setHistorico(readHistorico());
-    window.addEventListener('storage', handleStorage);
-
-    return () => window.removeEventListener('storage', handleStorage);
-  }, [isOpen]);
+  const historicoExibir = isOpen ? readHistorico() : historico;
 
   if (!isOpen) return null;
 
   const handleExcluir = (idParaRemover: number) => {
-    const novoHistorico = historico.filter((item) => item.id !== idParaRemover);
+    const novoHistorico = historicoExibir.filter((item) => item.id !== idParaRemover);
     localStorage.setItem('@wolf:historicoFichas', JSON.stringify(novoHistorico));
     setHistorico(novoHistorico);
   };
@@ -49,10 +41,10 @@ export default function ModalMeusTreinos({ isOpen, onClose, onCarregarTreino }: 
         </div>
 
         <div className="wolf-modal-body">
-          {historico.length === 0 ? (
+          {historicoExibir.length === 0 ? (
             <p className="wolf-empty-msg">Nenhum treino salvo até o momento.</p>
           ) : (
-            historico.map((treino) => (
+            historicoExibir.map((treino) => (
               <div key={treino.id} className="wolf-treino-card">
                 <div className="wolf-treino-info">
                   <h4>{treino.nome}</h4>

@@ -1,13 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './FichaTreino.css';
-
-export interface ExercicioFicha {
-  id: number | string;
-  nome: string;
-  grupoMuscular: string;
-  series: string;
-  repeticoes: string;
-}
+import type { ExercicioFicha } from '../../types/exercicio';
 
 interface FichaTreinoProps {
   exerciciosSelecionados: ExercicioFicha[];

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import "./SingUp.css";
 import Logo from "../../../public/Logo.png";
 import { useNavigate } from "react-router-dom";
@@ -17,7 +17,7 @@ export default function SignUpForm() {
   const [sucesso, setSucesso] = useState("");
 
   async function handleSubmit(
-    event: React.FormEvent<HTMLFormElement>
+    event: FormEvent<HTMLFormElement>
   ) {
     event.preventDefault();
 
@@ -66,18 +66,26 @@ export default function SignUpForm() {
         navigate("/");
       }, 2000);
 
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Erro ao cadastrar:", error);
 
-      if (error.response) {
+      type AxiosErrorLike = {
+        response?: {
+          data?: {
+            message?: string;
+          };
+        };
+      };
+
+      const axiosError = error as AxiosErrorLike;
+
+      if (axiosError?.response) {
         setErro(
-          error.response.data?.message ||
+          axiosError.response.data?.message ||
           "Não foi possível realizar o cadastro."
         );
       } else {
-        setErro(
-          "Não foi possível conectar com a API."
-        );
+        setErro("Não foi possível conectar com a API.");
       }
     } finally {
       setLoading(false);
