@@ -1,189 +1,832 @@
 /* ==========================================================================
-   TELA DE PERFIL - TEMA CIBERNÉTICO / WOLF
+   WINTERFORGE - PERFIL DO ATLETA
+   Tema: Cyber Wolf / Dark Frost
    ========================================================================== */
 
 .wolf-profile-page {
-  min-height: 80vh;
+  min-height: 100vh;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 24px 16px;
+  padding: 40px 20px;
+  box-sizing: border-box;
 }
+
+/* ==========================================================================
+   CARD PRINCIPAL
+   ========================================================================== */
 
 .wolf-profile-card {
+  position: relative;
   width: 100%;
-  max-width: 480px;
-  background: rgba(15, 19, 25, 0.85);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(0, 210, 255, 0.25);
-  border-radius: 20px;
-  padding: 32px 28px;
-  box-shadow: 
-    0 16px 40px rgba(0, 0, 0, 0.6),
-    0 0 25px rgba(0, 210, 255, 0.12);
+  max-width: 500px;
+  box-sizing: border-box;
+
+  padding: 32px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(18, 24, 32, 0.94),
+      rgba(8, 12, 18, 0.96)
+    );
+
+  border: 1px solid rgba(0, 210, 255, 0.22);
+  border-radius: 24px;
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  box-shadow:
+    0 25px 60px rgba(0, 0, 0, 0.55),
+    0 0 40px rgba(0, 210, 255, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+
   display: flex;
   flex-direction: column;
-  gap: 28px;
-  animation: wolfPopIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  gap: 26px;
+
+  overflow: hidden;
+
+  animation:
+    wolfPopIn 0.45s
+    cubic-bezier(0.16, 1, 0.3, 1)
+    forwards;
 }
 
-/* Avatar e Cabeçalho */
+/* Linha luminosa no topo */
+
+.wolf-profile-card::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: 8%;
+
+  width: 84%;
+  height: 1px;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #00d2ff,
+    transparent
+  );
+
+  box-shadow:
+    0 0 12px rgba(0, 210, 255, 0.8);
+}
+
+/* Brilho interno */
+
+.wolf-profile-card::after {
+  content: "";
+
+  position: absolute;
+
+  width: 220px;
+  height: 220px;
+
+  top: -120px;
+  right: -100px;
+
+  background: rgba(0, 210, 255, 0.06);
+
+  filter: blur(60px);
+
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   LOGO
+   ========================================================================== */
+
+.wolf-logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin-bottom: -8px;
+}
+
+.wolf-logo-img {
+  width: 110px;
+  max-width: 100%;
+  height: auto;
+
+  object-fit: contain;
+
+  filter:
+    drop-shadow(
+      0 0 14px
+      rgba(0, 210, 255, 0.25)
+    );
+
+  transition:
+    transform 0.3s ease,
+    filter 0.3s ease;
+}
+
+.wolf-logo-img:hover {
+  transform: scale(1.04);
+
+  filter:
+    drop-shadow(
+      0 0 22px
+      rgba(0, 210, 255, 0.45)
+    );
+}
+
+/* ==========================================================================
+   CABEÇALHO
+   ========================================================================== */
+
 .wolf-profile-header {
+  position: relative;
+  z-index: 1;
+
   display: flex;
   flex-direction: column;
+
   align-items: center;
   text-align: center;
 }
 
+/* ==========================================================================
+   AVATAR
+   ========================================================================== */
+
 .wolf-avatar-circle {
-  width: 72px;
-  height: 72px;
+  position: relative;
+
+  width: 78px;
+  height: 78px;
+
+  margin-bottom: 16px;
+
   border-radius: 50%;
-  background: linear-gradient(135deg, rgba(0, 210, 255, 0.2), rgba(0, 210, 255, 0.05));
-  border: 2px solid #00d2ff;
-  color: #00d2ff;
-  font-size: 1.8rem;
-  font-weight: 800;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 20px rgba(0, 210, 255, 0.3);
-  margin-bottom: 16px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(0, 210, 255, 0.16),
+      rgba(0, 210, 255, 0.03)
+    );
+
+  border: 2px solid rgba(0, 210, 255, 0.8);
+
+  color: #00d2ff;
+
+  font-size: 1.9rem;
+  font-weight: 800;
+
+  box-shadow:
+    0 0 20px
+    rgba(0, 210, 255, 0.18),
+
+    inset 0 0 20px
+    rgba(0, 210, 255, 0.05);
 }
 
+.wolf-avatar-circle::after {
+  content: "";
+
+  position: absolute;
+
+  inset: -7px;
+
+  border-radius: 50%;
+
+  border: 1px solid
+    rgba(0, 210, 255, 0.15);
+
+  animation:
+    wolfPulse 3s
+    ease-in-out
+    infinite;
+}
+
+/* ==========================================================================
+   TÍTULOS
+   ========================================================================== */
+
 .wolf-profile-title {
-  font-size: 1.5rem;
+  margin: 0 0 7px;
+
+  color: #f8fafc;
+
+  font-size: 1.45rem;
   font-weight: 800;
-  letter-spacing: 1.5px;
-  color: #ffffff;
-  margin: 0 0 6px 0;
+
+  letter-spacing: 1.8px;
+
   text-transform: uppercase;
 }
 
 .wolf-profile-title span {
   color: #00d2ff;
-  text-shadow: 0 0 16px rgba(0, 210, 255, 0.4);
+
+  text-shadow:
+    0 0 14px
+    rgba(0, 210, 255, 0.35);
 }
 
 .wolf-profile-subtitle {
-  color: #64748b;
-  font-size: 0.85rem;
   margin: 0;
+
+  color: #64748b;
+
+  font-size: 0.82rem;
+
+  letter-spacing: 0.4px;
 }
 
-/* Corpo e Campos de Informação */
+/* ==========================================================================
+   CORPO DO PERFIL
+   ========================================================================== */
+
 .wolf-profile-body {
+  position: relative;
+  z-index: 1;
+
   display: flex;
   flex-direction: column;
-  gap: 16px;
+
+  gap: 14px;
 }
+
+/* ==========================================================================
+   CAMPOS
+   ========================================================================== */
 
 .wolf-field-group {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+
+  gap: 7px;
 }
 
 .wolf-field-label {
-  font-size: 0.75rem;
-  font-weight: 700;
+  padding-left: 3px;
+
   color: #94a3b8;
-  letter-spacing: 1px;
+
+  font-size: 0.68rem;
+  font-weight: 800;
+
+  letter-spacing: 1.5px;
+
+  text-transform: uppercase;
 }
 
 .wolf-field-value {
-  background-color: rgba(22, 27, 34, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  padding: 12px 16px;
-  color: #f1f5f9;
-  font-size: 0.95rem;
-  font-weight: 500;
-}
+  min-height: 46px;
 
-.wolf-id-tag {
-  font-family: monospace;
-  color: #64748b;
-  font-size: 0.85rem;
-}
+  box-sizing: border-box;
 
-/* Botão de Logout */
-.wolf-profile-footer {
-  margin-top: 8px;
-}
-
-.wolf-btn-logout {
-  width: 100%;
-  background: rgba(239, 68, 68, 0.12);
-  color: #ef4444;
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  padding: 12px 20px;
-  border-radius: 12px;
-  font-weight: 700;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: all 0.25s ease;
   display: flex;
   align-items: center;
-  justify-content: center;
+
+  padding: 12px 15px;
+
+  background:
+    rgba(7, 11, 17, 0.72);
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.07);
+
+  border-radius: 11px;
+
+  color: #e2e8f0;
+
+  font-size: 0.92rem;
+  font-weight: 500;
+
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.wolf-field-value:hover {
+  border-color:
+    rgba(0, 210, 255, 0.2);
+}
+
+/* ==========================================================================
+   INPUTS DE EDIÇÃO
+   ========================================================================== */
+
+.wolf-profile-input {
+  width: 100%;
+  min-height: 46px;
+
+  box-sizing: border-box;
+
+  padding: 12px 15px;
+
+  background:
+    rgba(7, 11, 17, 0.9);
+
+  border:
+    1px solid
+    rgba(0, 210, 255, 0.35);
+
+  border-radius: 11px;
+
+  outline: none;
+
+  color: #f1f5f9;
+
+  font-family: inherit;
+
+  font-size: 0.92rem;
+
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease;
+}
+
+.wolf-profile-input::placeholder {
+  color: #475569;
+}
+
+.wolf-profile-input:focus {
+  background:
+    rgba(8, 15, 23, 0.95);
+
+  border-color: #00d2ff;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(0, 210, 255, 0.08),
+
+    0 0 18px
+    rgba(0, 210, 255, 0.08);
+}
+
+/* ==========================================================================
+   ID DA CONTA
+   ========================================================================== */
+
+.wolf-id-tag {
+  color: #64748b;
+
+  font-family:
+    "JetBrains Mono",
+    "Courier New",
+    monospace;
+
+  font-size: 0.82rem;
+
+  letter-spacing: 0.5px;
+}
+
+/* ==========================================================================
+   MENSAGENS
+   ========================================================================== */
+
+.wolf-success-msg,
+.wolf-error-msg {
+  position: relative;
+  z-index: 2;
+
+  padding: 11px 14px;
+
+  border-radius: 10px;
+
+  font-size: 0.82rem;
+  font-weight: 600;
+
+  text-align: center;
+
+  animation:
+    wolfMessageIn 0.25s
+    ease-out;
+}
+
+.wolf-success-msg {
+  color: #22d3ee;
+
+  background:
+    rgba(0, 210, 255, 0.07);
+
+  border:
+    1px solid
+    rgba(0, 210, 255, 0.18);
+}
+
+.wolf-error-msg {
+  color: #f87171;
+
+  background:
+    rgba(239, 68, 68, 0.08);
+
+  border:
+    1px solid
+    rgba(239, 68, 68, 0.2);
+}
+
+/* ==========================================================================
+   FOOTER / AÇÕES
+   ========================================================================== */
+
+.wolf-profile-footer {
+  position: relative;
+  z-index: 2;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 10px;
+
+  margin-top: 4px;
+}
+
+/* ==========================================================================
+   AÇÕES DE EDIÇÃO
+   ========================================================================== */
+
+.wolf-edit-actions {
+  display: grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
   gap: 10px;
 }
 
+/* ==========================================================================
+   ESTILO BASE DOS BOTÕES
+   ========================================================================== */
+
+.wolf-btn-edit,
+.wolf-btn-save,
+.wolf-btn-cancel,
+.wolf-btn-delete,
+.wolf-btn-logout {
+  width: 100%;
+
+  min-height: 45px;
+
+  border-radius: 11px;
+
+  padding: 11px 18px;
+
+  font-family: inherit;
+
+  font-size: 0.86rem;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 8px;
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    color 0.2s ease;
+
+  box-sizing: border-box;
+}
+
+.wolf-btn-edit:hover,
+.wolf-btn-save:hover,
+.wolf-btn-cancel:hover,
+.wolf-btn-delete:hover,
 .wolf-btn-logout:hover {
-  background: #ef4444;
-  color: #ffffff;
-  border-color: #ef4444;
-  box-shadow: 0 0 18px rgba(239, 68, 68, 0.4);
   transform: translateY(-2px);
 }
 
+.wolf-btn-edit:active,
+.wolf-btn-save:active,
+.wolf-btn-cancel:active,
+.wolf-btn-delete:active,
 .wolf-btn-logout:active {
   transform: translateY(0);
 }
 
+.wolf-btn-edit:disabled,
+.wolf-btn-save:disabled,
+.wolf-btn-cancel:disabled,
+.wolf-btn-delete:disabled,
+.wolf-btn-logout:disabled {
+  opacity: 0.45;
+
+  cursor: not-allowed;
+
+  transform: none;
+}
+
+/* ==========================================================================
+   EDITAR PERFIL
+   ========================================================================== */
+
+.wolf-btn-edit {
+  color: #00d2ff;
+
+  background:
+    rgba(0, 210, 255, 0.08);
+
+  border:
+    1px solid
+    rgba(0, 210, 255, 0.3);
+}
+
+.wolf-btn-edit:hover {
+  color: #ffffff;
+
+  background:
+    #00d2ff;
+
+  border-color:
+    #00d2ff;
+
+  box-shadow:
+    0 0 20px
+    rgba(0, 210, 255, 0.25);
+}
+
+/* ==========================================================================
+   SALVAR
+   ========================================================================== */
+
+.wolf-btn-save {
+  color: #071018;
+
+  background:
+    #00d2ff;
+
+  border:
+    1px solid
+    #00d2ff;
+
+  box-shadow:
+    0 0 14px
+    rgba(0, 210, 255, 0.12);
+}
+
+.wolf-btn-save:hover {
+  background: #38ddff;
+
+  box-shadow:
+    0 0 24px
+    rgba(0, 210, 255, 0.3);
+}
+
+/* ==========================================================================
+   CANCELAR
+   ========================================================================== */
+
+.wolf-btn-cancel {
+  color: #94a3b8;
+
+  background:
+    rgba(255, 255, 255, 0.04);
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.1);
+}
+
+.wolf-btn-cancel:hover {
+  color: #ffffff;
+
+  background:
+    rgba(255, 255, 255, 0.08);
+
+  border-color:
+    rgba(255, 255, 255, 0.18);
+}
+
+/* ==========================================================================
+   EXCLUIR CONTA
+   ========================================================================== */
+
+.wolf-btn-delete {
+  color: #f87171;
+
+  background:
+    rgba(239, 68, 68, 0.06);
+
+  border:
+    1px solid
+    rgba(239, 68, 68, 0.2);
+}
+
+.wolf-btn-delete:hover {
+  color: #ffffff;
+
+  background:
+    #ef4444;
+
+  border-color:
+    #ef4444;
+
+  box-shadow:
+    0 0 20px
+    rgba(239, 68, 68, 0.25);
+}
+
+/* ==========================================================================
+   LOGOUT
+   ========================================================================== */
+
+.wolf-btn-logout {
+  color: #94a3b8;
+
+  background:
+    rgba(255, 255, 255, 0.025);
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.07);
+}
+
+.wolf-btn-logout:hover {
+  color: #ffffff;
+
+  background:
+    rgba(255, 255, 255, 0.07);
+
+  border-color:
+    rgba(255, 255, 255, 0.15);
+
+  box-shadow:
+    0 0 15px
+    rgba(255, 255, 255, 0.04);
+}
+
 .wolf-icon-logout {
-  width: 18px;
-  height: 18px;
+  width: 17px;
+  height: 17px;
+
   fill: currentColor;
 }
 
-/* Estados (Loading / Error) */
-.wolf-profile-state {
-  text-align: center;
-  padding: 24px 0;
-  color: #94a3b8;
-  font-size: 0.9rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-}
+/* ==========================================================================
+   LOADING
+   ========================================================================== */
 
-.wolf-error-msg {
-  color: #ef4444;
+.wolf-profile-state {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 12px;
+
+  padding: 24px 0;
+
+  color: #94a3b8;
+
+  font-size: 0.88rem;
+
+  text-align: center;
 }
 
 .wolf-spinner {
   width: 28px;
   height: 28px;
-  border: 3px solid rgba(0, 210, 255, 0.15);
-  border-top-color: #00d2ff;
+
+  border:
+    3px solid
+    rgba(0, 210, 255, 0.12);
+
+  border-top-color:
+    #00d2ff;
+
   border-radius: 50%;
-  animation: wolfSpin 0.8s linear infinite;
+
+  animation:
+    wolfSpin 0.8s
+    linear infinite;
 }
 
+/* ==========================================================================
+   ANIMAÇÕES
+   ========================================================================== */
+
 @keyframes wolfSpin {
-  to { transform: rotate(360deg); }
+
+  to {
+    transform: rotate(360deg);
+  }
+
+}
+
+@keyframes wolfPulse {
+
+  0%,
+  100% {
+    opacity: 0.4;
+
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.8;
+
+    transform: scale(1.04);
+  }
+
 }
 
 @keyframes wolfPopIn {
+
   from {
     opacity: 0;
-    transform: scale(0.96) translateY(12px);
+
+    transform:
+      scale(0.96)
+      translateY(16px);
   }
+
   to {
     opacity: 1;
-    transform: scale(1) translateY(0);
+
+    transform:
+      scale(1)
+      translateY(0);
   }
+
+}
+
+@keyframes wolfMessageIn {
+
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(-5px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0);
+  }
+
+}
+
+/* ==========================================================================
+   RESPONSIVIDADE
+   ========================================================================== */
+
+@media (max-width: 600px) {
+
+  .wolf-profile-page {
+    min-height: 100vh;
+
+    padding:
+      24px 14px;
+  }
+
+  .wolf-profile-card {
+    padding:
+      28px 20px;
+
+    border-radius: 20px;
+
+    gap: 22px;
+  }
+
+  .wolf-profile-title {
+    font-size: 1.2rem;
+
+    letter-spacing: 1.2px;
+  }
+
+  .wolf-avatar-circle {
+    width: 68px;
+    height: 68px;
+
+    font-size: 1.6rem;
+  }
+
+  .wolf-edit-actions {
+    grid-template-columns:
+      1fr;
+  }
+
 }

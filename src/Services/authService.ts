@@ -59,3 +59,26 @@ export async function getProfile(): Promise<UserProfile> {
 
   return response.data;
 }
+
+export async function updateProfile(
+  nome: string,
+  email: string
+) {
+    const response = await authApi.put(
+    "/profile",
+    {
+      nome,
+      email,
+    }
+  );
+
+  return response.data;
+}
+
+export async function deleteProfile() {
+  const response = await authApi.delete(
+    "/profile"
+  );
+
+  return response.data;
+}
