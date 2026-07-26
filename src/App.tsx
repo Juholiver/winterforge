@@ -7,6 +7,7 @@ import SignUpForm from './Pages/SingUp/SingUp'
 import ListaExercicios from './Pages/Exercicios/ListaExercicios'
 import { ProtectedRoute } from "./Components/ProtectedRoute/ProtectedRoute";
 import Perfil from './Pages/Perfil/Perfil'
+import ListaExerciciosBanco from './Pages/Exercicios/ListaExerciciosBanco'
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
             path="/perfil"
             element={<Perfil />}
           />
+          <Route path="/perfil/treinos" element={<ListaExerciciosBanco />} />
         </Route>
       </Routes>
     </BrowserRouter>

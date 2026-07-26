@@ -5,23 +5,27 @@ import FichaTreinoDrawer from '../../Components/FichaTreino/FichaTreinoDrawer';
 import './ListaExercicios.css';
 import type { CampoSerieReps, Exercicio, ExercicioFicha } from '../../types/exercicio';
 
+const STORAGE_KEY = '@wolf:fichaTreino';
+
+const readFichaSalva = (): ExercicioFicha[] => {
+  if (typeof window === 'undefined') return [];
+
+  const salvo = window.localStorage.getItem(STORAGE_KEY);
+  if (!salvo) return [];
+
+  try {
+    return JSON.parse(salvo) as ExercicioFicha[];
+  } catch {
+    return [];
+  }
+};
+
 export default function ListaExercicios() {
   const [exercicios, setExercicios] = useState<Exercicio[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const [ficha, setFicha] = useState<ExercicioFicha[]>(() => {
-    if (typeof window === 'undefined') return [];
-
-    const salvo = window.localStorage.getItem('@wolf:fichaTreino');
-    if (!salvo) return [];
-
-    try {
-      return JSON.parse(salvo) as ExercicioFicha[];
-    } catch {
-      return [];
-    }
-  });
+  const [ficha, setFicha] = useState<ExercicioFicha[]>(() => readFichaSalva());
 
   const [busca, setBusca] = useState('');
   const [grupoSelecionado, setGrupoSelecionado] = useState('Todos');
@@ -55,8 +59,12 @@ export default function ListaExercicios() {
   }, []);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      window.localStorage.setItem('@wolf:fichaTreino', JSON.stringify(ficha));
+    if (typeof window === 'undefined') return;
+
+    if (ficha.length > 0) {
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(ficha));
+    } else {
+      window.localStorage.removeItem(STORAGE_KEY);
     }
   }, [ficha]);
 
@@ -79,15 +87,12 @@ export default function ListaExercicios() {
 
   const handleLimparFicha = () => {
     setFicha([]);
-    if (typeof window !== 'undefined') {
-      window.localStorage.removeItem('@wolf:fichaTreino');
-    }
   };
 
   const handleAtualizarSerieReps = (id: ExercicioFicha['id'], campo: CampoSerieReps, valor: string) => {
     setFicha((prev) =>
       prev.map((item) =>
-        item.id === id ? { ...item, [campo]: valor } : item
+        Number(item.id) === Number(id) ? { ...item, [campo]: valor } : item
       )
     );
   };
@@ -132,6 +137,7 @@ export default function ListaExercicios() {
           onLimpar={handleLimparFicha}
           onAtualizarSerieReps={handleAtualizarSerieReps}
           onCarregarFichaCompleta={handleCarregarFichaCompleta}
+          mode="local"
         />
       </section>
 
