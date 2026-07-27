@@ -1,4 +1,5 @@
 import authApi from "./authApi";
+import type { TreinoBackendItem } from '../types/exercicio';
 
 export interface TreinoCriarData {
   exercicioId: number;
@@ -22,7 +23,7 @@ export interface ApiResponse<T> {
 // ============================================================
 
 export async function getTreinos() {
-  const response = await authApi.get<ApiResponse<any[]>>(
+  const response = await authApi.get<ApiResponse<Record<string, TreinoBackendItem[]> | TreinoBackendItem[]>>(
     "/treinos"
   );
 

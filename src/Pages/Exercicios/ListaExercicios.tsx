@@ -69,13 +69,16 @@ export default function ListaExercicios() {
   }, [ficha]);
 
   const handleAdicionarFicha = (exercicio: Exercicio) => {
-    const jaExiste = ficha.some((item) => item.id === exercicio.id);
+    const novoId = Number(exercicio.id) || Date.now();
+    const jaExiste = ficha.some((item) => item.id === novoId);
     if (jaExiste) return;
 
     const novoItem: ExercicioFicha = {
       ...exercicio,
-      seriesCustom: exercicio.seriesRecomendadas ?? '3',
-      repsCustom: exercicio.repeticoes ?? '10',
+      id: novoId,
+      exercicioId: novoId,
+      seriesCustom: String(exercicio.seriesRecomendadas ?? '3'),
+      repsCustom: String(exercicio.repeticoes ?? '10'),
     };
 
     setFicha((prev) => [...prev, novoItem]);
