@@ -4,6 +4,7 @@ import FichaTreinoDrawer from '../../Components/FichaTreino/FichaTreinoDrawer';
 import { FiltrosExercicios } from '../../Components/Filtros/FiltrosExercicios';
 import { useTreinos } from '../../Hooks/useTreinos';
 import { getExercicioId } from '../../Services/exercicioAdapter';
+import { useNavigate } from 'react-router-dom';
 
 import './ListaExercicios.css';
 
@@ -11,6 +12,7 @@ const GRUPOS_MUSCULARES = ['Todos', 'Peito', 'Costas', 'Pernas', 'Ombros', 'Bra�
 const NIVEIS = ['Todos', 'Iniciante', 'Intermediário', 'Avançado'];
 
 export default function ListaExerciciosBanco() {
+  const navigate = useNavigate();
   const { exercicios, ficha, historicoTreinos, loading, loadingTreinos, error, actions } = useTreinos();
 
   const [busca, setBusca] = useState('');
@@ -29,14 +31,29 @@ export default function ListaExerciciosBanco() {
       return bateComBusca && bateComGrupo && bateComNivel;
     });
   }, [exercicios, busca, grupoSelecionado, nivelSelecionado]);
-
+  
   return (
     <div className="wolf-page-container">
       <header className="wolf-header">
-        <h1 className="wolf-title">
-          MINHA FICHA DE <span>TREINOS</span>
-        </h1>
-        <p className="wolf-subtitle">Monte e sincronize seu plano de treino na nuvem.</p>
+        <div className="wolf-header-left">
+          <button
+            type="button"
+            className="wolf-btn-perfil"
+            onClick={() => navigate("/perfil")}
+          >
+            <span className="wolf-btn-icon">←</span> Voltar ao Perfil
+          </button>
+        </div>
+
+        <div className="wolf-header-center">
+          <h1 className="wolf-title">
+            MINHA FICHA DE <span>TREINOS</span>
+          </h1>
+          <p className="wolf-subtitle">Monte e sincronize seu plano de treino na nuvem.</p>
+        </div>
+
+        {/* Div fantasma para manter o título perfeitamente centralizado */}
+        <div className="wolf-header-right" />
       </header>
 
       <section className="wolf-hero-ficha-wrapper">
