@@ -1,104 +1,194 @@
 /* ==========================================================================
    WINTERFORGE - PERFIL DO ATLETA
    Tema: Cyber Wolf / Dark Frost
+   Modern UI Edition
+   ========================================================================== */
+
+/* ==========================================================================
+   VARIÁVEIS VISUAIS
+   ========================================================================== */
+
+:root {
+  --wolf-bg: #0b0f16;
+  --wolf-bg-dark: #070b11;
+  --wolf-surface: rgba(18, 24, 32, 0.88);
+  --wolf-surface-dark: rgba(8, 12, 18, 0.94);
+
+  --wolf-primary: #00d2ff;
+  --wolf-primary-soft: rgba(0, 210, 255, 0.12);
+  --wolf-primary-border: rgba(0, 210, 255, 0.28);
+  --wolf-primary-glow: rgba(0, 210, 255, 0.18);
+
+  --wolf-text: #f8fafc;
+  --wolf-text-soft: #e2e8f0;
+  --wolf-muted: #94a3b8;
+  --wolf-muted-dark: #64748b;
+
+  --wolf-border: rgba(255, 255, 255, 0.07);
+  --wolf-border-soft: rgba(255, 255, 255, 0.04);
+
+  --wolf-danger: #ef4444;
+  --wolf-success: #22d3ee;
+
+  --wolf-radius-sm: 10px;
+  --wolf-radius-md: 16px;
+  --wolf-radius-lg: 24px;
+
+  --wolf-shadow:
+    0 25px 70px rgba(0, 0, 0, 0.45);
+
+  --wolf-transition:
+    all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
+/* ==========================================================================
+   PÁGINA PRINCIPAL
    ========================================================================== */
 
 .wolf-profile-page {
+  position: relative;
   min-height: 100vh;
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start; /* Alinha o conteúdo no topo */
-  align-items: flex-start;    /* Empurra todo o container para a ESQUERDA */
   padding: 40px 20px;
   box-sizing: border-box;
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+
+  background:
+    radial-gradient(
+      circle at 10% 10%,
+      rgba(0, 210, 255, 0.035),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 90% 90%,
+      rgba(0, 210, 255, 0.025),
+      transparent 30%
+    );
+
+  color: var(--wolf-text);
 }
 
+
 /* ==========================================================================
-   CARD PRINCIPAL
+   CONTAINER PRINCIPAL
+   ========================================================================== */
+
+.wolf-layout-container {
+  position: relative;
+
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+
+  width: 100%;
+  max-width: 1280px;
+
+  align-items: flex-start;
+}
+
+
+/* ==========================================================================
+   CARD LATERAL DE PERFIL
    ========================================================================== */
 
 .wolf-profile-card {
   position: relative;
-  width: 100%;
-  max-width: 500px;
-  box-sizing: border-box;
 
-  padding: 32px;
+  width: 100%;
+  max-width: 380px;
+
+  box-sizing: border-box;
+  padding: 32px 24px;
 
   background:
     linear-gradient(
       145deg,
       rgba(18, 24, 32, 0.94),
-      rgba(8, 12, 18, 0.96)
+      rgba(8, 12, 18, 0.97)
     );
 
-  border: 1px solid rgba(0, 210, 255, 0.22);
-  border-radius: 24px;
+  border: 1px solid var(--wolf-primary-border);
+  border-radius: var(--wolf-radius-lg);
 
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 
   box-shadow:
     0 25px 60px rgba(0, 0, 0, 0.55),
-    0 0 40px rgba(0, 210, 255, 0.06),
-    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    0 0 40px rgba(0, 210, 255, 0.04);
 
   display: flex;
   flex-direction: column;
-  gap: 26px;
+  gap: 22px;
+
+  flex-shrink: 0;
 
   overflow: hidden;
 
-  animation:
-    wolfPopIn 0.45s
-    cubic-bezier(0.16, 1, 0.3, 1)
-    forwards;
+  transition: var(--wolf-transition);
 }
 
-/* Linha luminosa no topo */
+.wolf-profile-card:hover {
+  border-color: rgba(0, 210, 255, 0.35);
+
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.6),
+    0 0 45px rgba(0, 210, 255, 0.07);
+}
+
+
+/* Linha superior luminosa */
 
 .wolf-profile-card::before {
   content: "";
 
   position: absolute;
-
   top: 0;
   left: 8%;
 
   width: 84%;
   height: 1px;
 
-  background: linear-gradient(
-    90deg,
-    transparent,
-    #00d2ff,
-    transparent
-  );
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      var(--wolf-primary),
+      transparent
+    );
 
   box-shadow:
     0 0 12px rgba(0, 210, 255, 0.8);
+
+  opacity: 0.8;
 }
 
-/* Brilho interno */
+
+/* Glow interno */
 
 .wolf-profile-card::after {
   content: "";
 
   position: absolute;
-
-  width: 220px;
-  height: 220px;
-
   top: -120px;
-  right: -100px;
+  right: -120px;
 
-  background: rgba(0, 210, 255, 0.06);
+  width: 240px;
+  height: 240px;
 
-  filter: blur(60px);
+  background: rgba(0, 210, 255, 0.035);
+
+  border-radius: 50%;
+
+  filter: blur(50px);
 
   pointer-events: none;
 }
+
 
 /* ==========================================================================
    LOGO
@@ -109,63 +199,46 @@
   justify-content: center;
   align-items: center;
 
-  margin-bottom: -8px;
+  padding: 4px 0;
 }
 
 .wolf-logo-img {
-  width: 110px;
-  max-width: 100%;
+  width: 90px;
   height: auto;
 
   object-fit: contain;
 
   filter:
-    drop-shadow(
-      0 0 14px
-      rgba(0, 210, 255, 0.25)
-    );
+    drop-shadow(0 0 12px rgba(0, 210, 255, 0.18));
 
-  transition:
-    transform 0.3s ease,
-    filter 0.3s ease;
+  transition: var(--wolf-transition);
 }
 
 .wolf-logo-img:hover {
   transform: scale(1.04);
 
   filter:
-    drop-shadow(
-      0 0 22px
-      rgba(0, 210, 255, 0.45)
-    );
+    drop-shadow(0 0 20px rgba(0, 210, 255, 0.32));
 }
 
+
 /* ==========================================================================
-   CABEÇALHO
+   AVATAR E CABEÇALHO
    ========================================================================== */
 
 .wolf-profile-header {
-  position: relative;
-  z-index: 1;
-
   display: flex;
   flex-direction: column;
-
   align-items: center;
+
   text-align: center;
 }
 
-/* ==========================================================================
-   AVATAR
-   ========================================================================== */
-
 .wolf-avatar-circle {
-  position: relative;
+  width: 70px;
+  height: 70px;
 
-  width: 78px;
-  height: 78px;
-
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 
   border-radius: 50%;
 
@@ -174,285 +247,1157 @@
   justify-content: center;
 
   background:
-    linear-gradient(
-      145deg,
-      rgba(0, 210, 255, 0.16),
+    radial-gradient(
+      circle at 35% 30%,
+      rgba(0, 210, 255, 0.2),
       rgba(0, 210, 255, 0.03)
     );
 
-  border: 2px solid rgba(0, 210, 255, 0.8);
+  border: 2px solid rgba(0, 210, 255, 0.75);
 
-  color: #00d2ff;
+  color: var(--wolf-primary);
 
-  font-size: 1.9rem;
+  font-size: 1.8rem;
   font-weight: 800;
 
   box-shadow:
-    0 0 20px
-    rgba(0, 210, 255, 0.18),
+    0 0 0 5px rgba(0, 210, 255, 0.025),
+    0 0 25px rgba(0, 210, 255, 0.16);
 
-    inset 0 0 20px
-    rgba(0, 210, 255, 0.05);
+  transition: var(--wolf-transition);
 }
 
-.wolf-avatar-circle::after {
-  content: "";
+.wolf-avatar-circle:hover {
+  transform: translateY(-2px);
 
-  position: absolute;
+  border-color: var(--wolf-primary);
 
-  inset: -7px;
-
-  border-radius: 50%;
-
-  border: 1px solid
-    rgba(0, 210, 255, 0.15);
-
-  animation:
-    wolfPulse 3s
-    ease-in-out
-    infinite;
+  box-shadow:
+    0 0 0 7px rgba(0, 210, 255, 0.035),
+    0 0 35px rgba(0, 210, 255, 0.25);
 }
 
-/* ==========================================================================
-   TÍTULOS
-   ========================================================================== */
 
 .wolf-profile-title {
-  margin: 0 0 7px;
+  margin: 0 0 4px;
 
-  color: #f8fafc;
+  color: var(--wolf-text);
 
-  font-size: 1.45rem;
+  font-size: 1.25rem;
   font-weight: 800;
 
-  letter-spacing: 1.8px;
-
+  letter-spacing: 1.5px;
   text-transform: uppercase;
 }
 
 .wolf-profile-title span {
-  color: #00d2ff;
+  color: var(--wolf-primary);
 
   text-shadow:
-    0 0 14px
-    rgba(0, 210, 255, 0.35);
+    0 0 15px rgba(0, 210, 255, 0.25);
 }
 
 .wolf-profile-subtitle {
   margin: 0;
 
-  color: #64748b;
+  color: var(--wolf-muted-dark);
 
-  font-size: 0.82rem;
-
-  letter-spacing: 0.4px;
+  font-size: 0.8rem;
 }
+
 
 /* ==========================================================================
    CORPO DO PERFIL
    ========================================================================== */
 
 .wolf-profile-body {
-  position: relative;
-  z-index: 1;
-
   display: flex;
   flex-direction: column;
-
-  gap: 14px;
+  gap: 12px;
+  
 }
-
-/* ==========================================================================
-   CAMPOS
-   ========================================================================== */
+.wolf-profile-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
 
 .wolf-field-group {
   display: flex;
   flex-direction: column;
-
-  gap: 7px;
+  gap: 6px;
 }
 
 .wolf-field-label {
-  padding-left: 3px;
+  color: var(--wolf-muted);
 
-  color: #94a3b8;
-
-  font-size: 0.68rem;
+  font-size: 0.65rem;
   font-weight: 800;
 
-  letter-spacing: 1.5px;
-
+  letter-spacing: 1.2px;
   text-transform: uppercase;
 }
 
 .wolf-field-value {
-  min-height: 46px;
-
-  box-sizing: border-box;
+  min-height: 42px;
 
   display: flex;
   align-items: center;
 
-  padding: 12px 15px;
+  padding: 10px 14px;
 
   background:
-    rgba(7, 11, 17, 0.72);
+    linear-gradient(
+      135deg,
+      rgba(7, 11, 17, 0.82),
+      rgba(10, 15, 23, 0.65)
+    );
 
-  border:
-    1px solid
-    rgba(255, 255, 255, 0.07);
+  border: 1px solid var(--wolf-border);
 
-  border-radius: 11px;
+  border-radius: var(--wolf-radius-sm);
 
-  color: #e2e8f0;
+  color: var(--wolf-text-soft);
 
-  font-size: 0.92rem;
-  font-weight: 500;
+  font-size: 0.88rem;
 
-  transition:
-    border-color 0.25s ease,
-    box-shadow 0.25s ease;
+  transition: var(--wolf-transition);
 }
 
 .wolf-field-value:hover {
-  border-color:
-    rgba(0, 210, 255, 0.2);
+  border-color: rgba(0, 210, 255, 0.18);
+
+  background:
+    rgba(0, 210, 255, 0.025);
 }
 
-/* ==========================================================================
-   INPUTS DE EDIÇÃO
-   ========================================================================== */
 
 .wolf-profile-input {
   width: 100%;
-  min-height: 46px;
+  min-height: 42px;
 
   box-sizing: border-box;
 
-  padding: 12px 15px;
+  padding: 10px 14px;
 
   background:
     rgba(7, 11, 17, 0.9);
 
-  border:
-    1px solid
-    rgba(0, 210, 255, 0.35);
+  border: 1px solid rgba(0, 210, 255, 0.35);
 
-  border-radius: 11px;
+  border-radius: var(--wolf-radius-sm);
 
   outline: none;
 
-  color: #f1f5f9;
+  color: var(--wolf-text);
 
-  font-family: inherit;
+  font-size: 0.88rem;
 
-  font-size: 0.92rem;
+  transition: var(--wolf-transition);
+}
 
-  transition:
-    border-color 0.25s ease,
-    box-shadow 0.25s ease,
-    background 0.25s ease;
+.wolf-profile-input:focus {
+  border-color: var(--wolf-primary);
+
+  box-shadow:
+    0 0 0 3px rgba(0, 210, 255, 0.08),
+    0 0 20px rgba(0, 210, 255, 0.06);
 }
 
 .wolf-profile-input::placeholder {
   color: #475569;
 }
 
-.wolf-profile-input:focus {
-  background:
-    rgba(8, 15, 23, 0.95);
+.wolf-id-tag {
+  color: var(--wolf-muted-dark);
 
-  border-color: #00d2ff;
-
-  box-shadow:
-    0 0 0 3px
-    rgba(0, 210, 255, 0.08),
-
-    0 0 18px
-    rgba(0, 210, 255, 0.08);
+  font-family: monospace;
 }
 
+
 /* ==========================================================================
-   ID DA CONTA
+   PAINEL PRINCIPAL DE FICHAS
    ========================================================================== */
 
-.wolf-id-tag {
-  color: #64748b;
+.wolf-fichas-container {
+  position: relative;
 
-  font-family:
-    "JetBrains Mono",
-    "Courier New",
-    monospace;
+  flex: 1;
 
-  font-size: 0.82rem;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(18, 24, 32, 0.88),
+      rgba(8, 12, 18, 0.94)
+    );
+
+  border: 1px solid rgba(0, 210, 255, 0.18);
+
+  border-radius: var(--wolf-radius-lg);
+
+  padding: 28px;
+
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+
+  box-shadow:
+    var(--wolf-shadow);
+
+  min-height: 520px;
+
+  overflow: hidden;
+}
+
+.wolf-fichas-container::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: 10%;
+
+  width: 80%;
+  height: 1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(0, 210, 255, 0.55),
+      transparent
+    );
+}
+
+
+/* ==========================================================================
+   HEADER DAS FICHAS
+   ========================================================================== */
+
+.wolf-fichas-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+
+  margin-bottom: 20px;
+}
+
+.wolf-fichas-title {
+  margin: 0;
+
+  color: var(--wolf-text);
+
+  font-size: 1.2rem;
+  font-weight: 800;
+
+  letter-spacing: 0.8px;
+
+  text-transform: uppercase;
+}
+
+.wolf-fichas-title::after {
+  content: "";
+
+  display: block;
+
+  width: 42px;
+  height: 2px;
+
+  margin-top: 8px;
+
+  background: var(--wolf-primary);
+
+  box-shadow:
+    0 0 10px rgba(0, 210, 255, 0.4);
+}
+
+
+/* ==========================================================================
+   BOTÃO VOLTAR
+   ========================================================================== */
+
+.wolf-btn-voltar-ficha {
+  padding: 8px 16px;
+
+  border-radius: 8px;
+
+  background:
+    rgba(0, 212, 255, 0.07);
+
+  color: var(--wolf-primary);
+
+  border: 1px solid rgba(0, 212, 255, 0.25);
+
+  cursor: pointer;
+
+  font-weight: 600;
+
+  transition: var(--wolf-transition);
+}
+
+.wolf-btn-voltar-ficha:hover {
+  background:
+    rgba(0, 212, 255, 0.14);
+
+  border-color:
+    rgba(0, 212, 255, 0.5);
+
+  transform: translateX(-3px);
+
+  box-shadow:
+    0 5px 20px rgba(0, 210, 255, 0.08);
+}
+
+
+/* ==========================================================================
+   ESTADO VAZIO
+   ========================================================================== */
+
+.wolf-fichas-empty {
+  padding: 50px 40px;
+
+  color: var(--wolf-muted-dark);
+
+  font-size: 0.9rem;
+
+  text-align: center;
+
+  background:
+    rgba(7, 11, 17, 0.38);
+
+  border:
+    1px dashed rgba(255, 255, 255, 0.09);
+
+  border-radius: var(--wolf-radius-md);
+}
+
+
+/* ==========================================================================
+   GRID DAS FICHAS
+   ========================================================================== */
+
+.wolf-fichas-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fill, minmax(220px, 1fr));
+
+  gap: 16px;
+}
+
+
+/* ==========================================================================
+   CARD DA FICHA
+   ========================================================================== */
+
+.wolf-ficha-card {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  padding: 20px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(0, 210, 255, 0.045),
+      rgba(7, 11, 17, 0.88)
+    );
+
+  border:
+    1px solid rgba(255, 255, 255, 0.07);
+
+  border-radius: var(--wolf-radius-md);
+
+  cursor: pointer;
+
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease;
+
+  overflow: hidden;
+}
+
+.wolf-ficha-card::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 3px;
+  height: 0;
+
+  background: var(--wolf-primary);
+
+  box-shadow:
+    0 0 15px rgba(0, 210, 255, 0.6);
+
+  transition: height 0.25s ease;
+}
+
+.wolf-ficha-card:hover {
+  border-color:
+    rgba(0, 210, 255, 0.38);
+
+  transform:
+    translateY(-5px);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(0, 210, 255, 0.07),
+      rgba(7, 11, 17, 0.92)
+    );
+
+  box-shadow:
+    0 15px 35px rgba(0, 0, 0, 0.4),
+    0 0 25px rgba(0, 210, 255, 0.08);
+}
+
+.wolf-ficha-card:hover::before {
+  height: 100%;
+}
+
+
+.wolf-ficha-letra {
+  color: rgba(0, 210, 255, 0.85);
+
+  font-size: 2rem;
+  font-weight: 800;
+
+  line-height: 1;
+
+  text-shadow:
+    0 0 20px rgba(0, 210, 255, 0.18);
+}
+
+.wolf-ficha-nome {
+  color: var(--wolf-text);
+
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.wolf-ficha-grupos {
+  color: var(--wolf-muted);
+
+  font-size: 0.78rem;
+}
+
+.wolf-ficha-count {
+  margin-top: 10px;
+
+  color: var(--wolf-primary);
+
+  font-size: 0.72rem;
+  font-weight: 700;
+
+  text-transform: uppercase;
 
   letter-spacing: 0.5px;
 }
 
-/* ==========================================================================
-   MENSAGENS
-   ========================================================================== */
-
-.wolf-success-msg,
-.wolf-error-msg {
-  position: relative;
-  z-index: 2;
-
-  padding: 11px 14px;
-
-  border-radius: 10px;
-
-  font-size: 0.82rem;
-  font-weight: 600;
-
-  text-align: center;
-
-  animation:
-    wolfMessageIn 0.25s
-    ease-out;
-}
-
-.wolf-success-msg {
-  color: #22d3ee;
-
-  background:
-    rgba(0, 210, 255, 0.07);
-
-  border:
-    1px solid
-    rgba(0, 210, 255, 0.18);
-}
-
-.wolf-error-msg {
-  color: #f87171;
-
-  background:
-    rgba(239, 68, 68, 0.08);
-
-  border:
-    1px solid
-    rgba(239, 68, 68, 0.2);
-}
 
 /* ==========================================================================
-   FOOTER / AÇÕES
+   BOTÃO EXCLUIR FICHA
    ========================================================================== */
 
-.wolf-profile-footer {
-  position: relative;
-  z-index: 2;
+.wolf-ficha-delete {
+  position: absolute;
 
+  top: 10px;
+  right: 10px;
+
+  width: 28px;
+  height: 28px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--wolf-muted-dark);
+
+  background:
+    rgba(255, 255, 255, 0.035);
+
+  border:
+    1px solid rgba(255, 255, 255, 0.07);
+
+  border-radius: 50%;
+
+  cursor: pointer;
+
+  transition: var(--wolf-transition);
+}
+
+.wolf-ficha-delete:hover {
+  color: #fff;
+
+  background: var(--wolf-danger);
+
+  border-color: var(--wolf-danger);
+
+  transform: scale(1.08);
+
+  box-shadow:
+    0 0 15px rgba(239, 68, 68, 0.25);
+}
+
+
+/* ==========================================================================
+   LISTA DE EXERCÍCIOS
+   ========================================================================== */
+
+.wolf-exercicios-list {
   display: flex;
   flex-direction: column;
 
   gap: 10px;
 
-  margin-top: 4px;
+  max-height: 600px;
+
+  overflow-y: auto;
+
+  padding-right: 6px;
+
+  scrollbar-width: thin;
+  scrollbar-color:
+    rgba(0, 210, 255, 0.35)
+    transparent;
 }
 
+
+/* Scrollbar Chrome */
+
+.wolf-exercicios-list::-webkit-scrollbar {
+  width: 5px;
+}
+
+.wolf-exercicios-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.wolf-exercicios-list::-webkit-scrollbar-thumb {
+  background:
+    rgba(0, 210, 255, 0.25);
+
+  border-radius: 10px;
+}
+
+.wolf-exercicios-list::-webkit-scrollbar-thumb:hover {
+  background:
+    rgba(0, 210, 255, 0.55);
+}
+
+
 /* ==========================================================================
-   AÇÕES DE EDIÇÃO
+   LINHA DO EXERCÍCIO
+   ========================================================================== */
+
+.wolf-exercicio-row {
+  display: flex;
+  align-items: center;
+
+  gap: 14px;
+
+  padding: 12px 16px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(7, 11, 17, 0.78),
+      rgba(10, 15, 23, 0.6)
+    );
+
+  border:
+    1px solid rgba(255, 255, 255, 0.055);
+
+  border-radius: var(--wolf-radius-md);
+
+  cursor: pointer;
+
+  transition: var(--wolf-transition);
+}
+
+.wolf-exercicio-row:hover {
+  border-color:
+    rgba(0, 210, 255, 0.35);
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(0, 210, 255, 0.045),
+      rgba(7, 11, 17, 0.8)
+    );
+
+  transform:
+    translateX(3px);
+
+  box-shadow:
+    0 8px 25px rgba(0, 0, 0, 0.22);
+}
+
+
+/* ==========================================================================
+   NÚMERO DO EXERCÍCIO
+   ========================================================================== */
+
+.wolf-exercicio-numero {
+  width: 28px;
+  height: 28px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  color: var(--wolf-primary);
+
+  background:
+    rgba(0, 210, 255, 0.08);
+
+  border:
+    1px solid rgba(0, 210, 255, 0.3);
+
+  border-radius: 50%;
+
+  font-size: 0.8rem;
+  font-weight: 800;
+
+  transition: var(--wolf-transition);
+}
+
+.wolf-exercicio-row:hover .wolf-exercicio-numero {
+  background:
+    rgba(0, 210, 255, 0.15);
+
+  box-shadow:
+    0 0 15px rgba(0, 210, 255, 0.1);
+}
+
+
+/* ==========================================================================
+   GIF DO EXERCÍCIO
+   ========================================================================== */
+
+.wolf-exercicio-gif-wrap {
+  width: 50px;
+  height: 50px;
+
+  border-radius: 10px;
+
+  overflow: hidden;
+
+  background:
+    #161b22;
+
+  border:
+    1px solid rgba(255, 255, 255, 0.08);
+
+  flex-shrink: 0;
+
+  transition: var(--wolf-transition);
+}
+
+.wolf-exercicio-row:hover .wolf-exercicio-gif-wrap {
+  border-color:
+    rgba(0, 210, 255, 0.25);
+
+  transform:
+    scale(1.04);
+}
+
+.wolf-exercicio-gif {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+
+/* ==========================================================================
+   INFORMAÇÕES DO EXERCÍCIO
+   ========================================================================== */
+
+.wolf-exercicio-info {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  min-width: 0;
+}
+
+.wolf-exercicio-nome {
+  color: var(--wolf-text-soft);
+
+  font-size: 0.95rem;
+  font-weight: 700;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wolf-exercicio-grupo {
+  color: var(--wolf-muted-dark);
+
+  font-size: 0.75rem;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.3px;
+}
+
+
+/* ==========================================================================
+   HINT DE CLIQUE
+   ========================================================================== */
+
+.wolf-click-hint {
+  font-size: 0.72rem;
+
+  color: var(--wolf-primary);
+
+  opacity: 0;
+
+  transform: translateX(-4px);
+
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.wolf-exercicio-row:hover .wolf-click-hint {
+  opacity: 1;
+
+  transform:
+    translateX(0);
+}
+
+
+/* ==========================================================================
+   META DO EXERCÍCIO
+   ========================================================================== */
+
+.wolf-exercicio-meta {
+  display: flex;
+
+  gap: 12px;
+}
+
+.wolf-exercicio-meta-item {
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+}
+
+.wolf-meta-label {
+  color: #475569;
+
+  font-size: 0.62rem;
+
+  text-transform: uppercase;
+}
+
+.wolf-meta-value {
+  color: var(--wolf-text);
+
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+
+/* ==========================================================================
+   TEMPORIZADOR FLUTUANTE
+   ========================================================================== */
+
+.wolf-timer-widget {
+  position: fixed;
+
+  bottom: 120px;
+  right: 40px;
+
+  width: 170px;
+
+  padding: 16px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(12, 18, 27, 0.97),
+      rgba(6, 10, 16, 0.98)
+    );
+
+  border:
+    1px solid rgba(0, 210, 255, 0.3);
+
+  border-radius: 18px;
+
+  box-shadow:
+    0 15px 40px rgba(0, 0, 0, 0.6),
+    0 0 25px rgba(0, 210, 255, 0.08);
+
+  backdrop-filter:
+    blur(16px);
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+
+  gap: 8px;
+
+  z-index: 99;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.wolf-timer-widget:hover {
+  transform:
+    translateY(-3px);
+
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.65),
+    0 0 30px rgba(0, 210, 255, 0.12);
+}
+
+.wolf-timer-header {
+  font-size: 0.68rem;
+  font-weight: 800;
+
+  color: var(--wolf-muted);
+
+  letter-spacing: 1px;
+}
+
+.wolf-timer-display {
+  font-size: 1.8rem;
+  font-weight: 800;
+
+  color: var(--wolf-primary);
+
+  font-family: monospace;
+
+  text-shadow:
+    0 0 15px rgba(0, 210, 255, 0.25);
+}
+
+.wolf-timer-presets {
+  display: flex;
+
+  gap: 6px;
+}
+
+.wolf-timer-presets button {
+  background:
+    rgba(255, 255, 255, 0.04);
+
+  border:
+    1px solid rgba(255, 255, 255, 0.08);
+
+  color: #cbd5e1;
+
+  padding: 5px 8px;
+
+  border-radius: 6px;
+
+  font-size: 0.7rem;
+
+  cursor: pointer;
+
+  transition: var(--wolf-transition);
+}
+
+.wolf-timer-presets button:hover {
+  background:
+    rgba(0, 210, 255, 0.12);
+
+  color: var(--wolf-primary);
+
+  border-color:
+    rgba(0, 210, 255, 0.25);
+}
+
+.wolf-timer-controls {
+  display: flex;
+
+  gap: 8px;
+
+  width: 100%;
+}
+
+.wolf-btn-timer-action {
+  flex: 1;
+
+  background:
+    var(--wolf-primary);
+
+  border: none;
+
+  color: #071018;
+
+  font-weight: 700;
+
+  padding: 7px;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  font-size: 0.78rem;
+
+  transition: var(--wolf-transition);
+}
+
+.wolf-btn-timer-action:hover {
+  background:
+    #38ddff;
+
+  transform:
+    translateY(-1px);
+
+  box-shadow:
+    0 5px 15px rgba(0, 210, 255, 0.2);
+}
+
+.wolf-btn-timer-reset {
+  background:
+    rgba(255, 255, 255, 0.06);
+
+  border: none;
+
+  color: var(--wolf-muted);
+
+  padding: 6px 8px;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  font-size: 0.78rem;
+
+  transition: var(--wolf-transition);
+}
+
+.wolf-btn-timer-reset:hover {
+  background:
+    rgba(255, 255, 255, 0.1);
+
+  color: #fff;
+}
+
+
+/* ==========================================================================
+   MODAL
+   ========================================================================== */
+
+.wolf-modal-overlay {
+  position: fixed;
+
+  inset: 0;
+
+  background:
+    rgba(3, 7, 12, 0.86);
+
+  backdrop-filter:
+    blur(10px);
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  z-index: 1000;
+
+  padding: 20px;
+
+  animation:
+    wolfFadeIn 0.2s ease;
+}
+
+.wolf-modal-content {
+  position: relative;
+
+  width: 100%;
+  max-width: 440px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(18, 24, 32, 0.98),
+      rgba(8, 12, 18, 0.99)
+    );
+
+  border:
+    1px solid rgba(0, 210, 255, 0.35);
+
+  border-radius: 20px;
+
+  padding: 24px;
+
+  box-shadow:
+    0 25px 70px rgba(0, 0, 0, 0.8),
+    0 0 35px rgba(0, 210, 255, 0.1);
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 14px;
+
+  animation:
+    wolfModalIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.wolf-modal-close {
+  position: absolute;
+
+  top: 14px;
+  right: 16px;
+
+  width: 32px;
+  height: 32px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background:
+    rgba(255, 255, 255, 0.04);
+
+  border:
+    1px solid rgba(255, 255, 255, 0.06);
+
+  border-radius: 50%;
+
+  color: var(--wolf-muted-dark);
+
+  font-size: 1.2rem;
+
+  cursor: pointer;
+
+  transition: var(--wolf-transition);
+}
+
+.wolf-modal-close:hover {
+  color: #fff;
+
+  background:
+    rgba(239, 68, 68, 0.12);
+
+  border-color:
+    rgba(239, 68, 68, 0.25);
+
+  transform:
+    rotate(90deg);
+}
+
+.wolf-modal-title {
+  margin: 0;
+
+  color: var(--wolf-text);
+
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+.wolf-modal-subtitle {
+  color: var(--wolf-primary);
+
+  font-size: 0.78rem;
+
+  text-transform: uppercase;
+
+  margin-top: -8px;
+
+  letter-spacing: 0.5px;
+}
+
+.wolf-modal-gif-container {
+  width: 100%;
+  height: 240px;
+
+  border-radius: 12px;
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(0, 210, 255, 0.03),
+      #0f1722
+    );
+
+  border:
+    1px solid rgba(255, 255, 255, 0.08);
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+}
+
+.wolf-modal-gif {
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+}
+
+.wolf-modal-no-gif {
+  text-align: center;
+
+  color: var(--wolf-muted-dark);
+}
+
+.wolf-modal-no-gif span {
+  font-size: 2.5rem;
+}
+
+.wolf-modal-details {
+  display: flex;
+
+  justify-content: space-around;
+
+  padding: 14px;
+
+  background:
+    rgba(7, 11, 17, 0.65);
+
+  border:
+    1px solid rgba(255, 255, 255, 0.04);
+
+  border-radius: 10px;
+}
+
+.wolf-modal-details div {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  gap: 3px;
+}
+
+.wolf-modal-details strong {
+  color: var(--wolf-text);
+
+  font-size: 1.1rem;
+}
+
+
+/* ==========================================================================
+   BOTÕES
    ========================================================================== */
 
 .wolf-edit-actions {
@@ -464,222 +1409,182 @@
   gap: 10px;
 }
 
-/* ==========================================================================
-   ESTILO BASE DOS BOTÕES
-   ========================================================================== */
-
 .wolf-btn-edit,
 .wolf-btn-save,
 .wolf-btn-cancel,
 .wolf-btn-delete,
 .wolf-btn-logout {
   width: 100%;
+  min-height: 42px;
 
-  min-height: 45px;
-
-  border-radius: 11px;
-
-  padding: 11px 18px;
-
-  font-family: inherit;
-
-  font-size: 0.86rem;
+  border-radius: 10px;
 
   font-weight: 700;
+  font-size: 0.82rem;
 
   cursor: pointer;
 
   display: flex;
-
   align-items: center;
-
   justify-content: center;
 
   gap: 8px;
 
-  transition:
-    transform 0.2s ease,
-    background 0.2s ease,
-    border-color 0.2s ease,
-    box-shadow 0.2s ease,
-    color 0.2s ease;
-
-  box-sizing: border-box;
+  transition: var(--wolf-transition);
 }
-
-.wolf-btn-edit:hover,
-.wolf-btn-save:hover,
-.wolf-btn-cancel:hover,
-.wolf-btn-delete:hover,
-.wolf-btn-logout:hover {
-  transform: translateY(-2px);
-}
-
-.wolf-btn-edit:active,
-.wolf-btn-save:active,
-.wolf-btn-cancel:active,
-.wolf-btn-delete:active,
-.wolf-btn-logout:active {
-  transform: translateY(0);
-}
-
-.wolf-btn-edit:disabled,
-.wolf-btn-save:disabled,
-.wolf-btn-cancel:disabled,
-.wolf-btn-delete:disabled,
-.wolf-btn-logout:disabled {
-  opacity: 0.45;
-
-  cursor: not-allowed;
-
-  transform: none;
-}
-
-/* ==========================================================================
-   EDITAR PERFIL
-   ========================================================================== */
 
 .wolf-btn-edit {
-  color: #00d2ff;
+  color: var(--wolf-primary);
 
   background:
-    rgba(0, 210, 255, 0.08);
+    rgba(0, 210, 255, 0.06);
 
   border:
-    1px solid
-    rgba(0, 210, 255, 0.3);
+    1px solid rgba(0, 210, 255, 0.25);
 }
 
 .wolf-btn-edit:hover {
-  color: #ffffff;
-
   background:
-    #00d2ff;
+    var(--wolf-primary);
 
-  border-color:
-    #00d2ff;
+  color: #000;
+
+  transform:
+    translateY(-2px);
 
   box-shadow:
-    0 0 20px
-    rgba(0, 210, 255, 0.25);
+    0 8px 20px rgba(0, 210, 255, 0.15);
 }
-
-/* ==========================================================================
-   SALVAR
-   ========================================================================== */
 
 .wolf-btn-save {
   color: #071018;
 
   background:
-    #00d2ff;
+    var(--wolf-primary);
 
   border:
-    1px solid
-    #00d2ff;
-
-  box-shadow:
-    0 0 14px
-    rgba(0, 210, 255, 0.12);
+    1px solid var(--wolf-primary);
 }
 
 .wolf-btn-save:hover {
-  background: #38ddff;
+  background:
+    #38ddff;
+
+  transform:
+    translateY(-2px);
 
   box-shadow:
-    0 0 24px
-    rgba(0, 210, 255, 0.3);
+    0 8px 20px rgba(0, 210, 255, 0.2);
 }
 
-/* ==========================================================================
-   CANCELAR
-   ========================================================================== */
-
 .wolf-btn-cancel {
-  color: #94a3b8;
+  color: var(--wolf-muted);
 
   background:
-    rgba(255, 255, 255, 0.04);
+    rgba(255, 255, 255, 0.035);
 
   border:
-    1px solid
-    rgba(255, 255, 255, 0.1);
+    1px solid rgba(255, 255, 255, 0.08);
 }
 
 .wolf-btn-cancel:hover {
-  color: #ffffff;
+  color: #fff;
 
   background:
-    rgba(255, 255, 255, 0.08);
-
-  border-color:
-    rgba(255, 255, 255, 0.18);
+    rgba(255, 255, 255, 0.07);
 }
-
-/* ==========================================================================
-   EXCLUIR CONTA
-   ========================================================================== */
 
 .wolf-btn-delete {
   color: #f87171;
 
   background:
-    rgba(239, 68, 68, 0.06);
+    rgba(239, 68, 68, 0.05);
 
   border:
-    1px solid
-    rgba(239, 68, 68, 0.2);
+    1px solid rgba(239, 68, 68, 0.18);
 }
 
 .wolf-btn-delete:hover {
-  color: #ffffff;
-
   background:
-    #ef4444;
+    var(--wolf-danger);
 
-  border-color:
-    #ef4444;
+  color: #fff;
+
+  transform:
+    translateY(-2px);
 
   box-shadow:
-    0 0 20px
-    rgba(239, 68, 68, 0.25);
+    0 8px 20px rgba(239, 68, 68, 0.15);
 }
 
-/* ==========================================================================
-   LOGOUT
-   ========================================================================== */
-
 .wolf-btn-logout {
-  color: #94a3b8;
+  color: var(--wolf-muted);
 
   background:
     rgba(255, 255, 255, 0.025);
 
   border:
-    1px solid
-    rgba(255, 255, 255, 0.07);
+    1px solid rgba(255, 255, 255, 0.07);
 }
 
 .wolf-btn-logout:hover {
-  color: #ffffff;
-
   background:
     rgba(255, 255, 255, 0.07);
 
-  border-color:
-    rgba(255, 255, 255, 0.15);
+  color: #fff;
 
-  box-shadow:
-    0 0 15px
-    rgba(255, 255, 255, 0.04);
+  border-color:
+    rgba(255, 255, 255, 0.12);
 }
 
 .wolf-icon-logout {
-  width: 17px;
-  height: 17px;
+  width: 16px;
+  height: 16px;
 
   fill: currentColor;
 }
+
+
+/* ==========================================================================
+   FEEDBACKS
+   ========================================================================== */
+
+.wolf-success-msg {
+  color: var(--wolf-success);
+
+  background:
+    rgba(0, 210, 255, 0.055);
+
+  border:
+    1px solid rgba(0, 210, 255, 0.16);
+
+  padding: 9px;
+
+  border-radius: 8px;
+
+  font-size: 0.8rem;
+
+  text-align: center;
+}
+
+.wolf-error-msg {
+  color: #f87171;
+
+  background:
+    rgba(239, 68, 68, 0.07);
+
+  border:
+    1px solid rgba(239, 68, 68, 0.18);
+
+  padding: 9px;
+
+  border-radius: 8px;
+
+  font-size: 0.8rem;
+
+  text-align: center;
+}
+
 
 /* ==========================================================================
    LOADING
@@ -692,142 +1597,251 @@
 
   align-items: center;
 
-  justify-content: center;
+  gap: 10px;
 
-  gap: 12px;
+  padding: 20px 0;
 
-  padding: 24px 0;
+  color: var(--wolf-muted);
 
-  color: #94a3b8;
-
-  font-size: 0.88rem;
-
-  text-align: center;
+  font-size: 0.85rem;
 }
 
 .wolf-spinner {
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
 
   border:
-    3px solid
-    rgba(0, 210, 255, 0.12);
+    3px solid rgba(0, 210, 255, 0.1);
 
   border-top-color:
-    #00d2ff;
+    var(--wolf-primary);
 
   border-radius: 50%;
 
   animation:
-    wolfSpin 0.8s
-    linear infinite;
+    wolfSpin 0.8s linear infinite;
+
+  box-shadow:
+    0 0 15px rgba(0, 210, 255, 0.1);
 }
+
 
 /* ==========================================================================
    ANIMAÇÕES
    ========================================================================== */
 
 @keyframes wolfSpin {
-
   to {
-    transform: rotate(360deg);
+    transform:
+      rotate(360deg);
   }
-
 }
 
-@keyframes wolfPulse {
-
-  0%,
-  100% {
-    opacity: 0.4;
-
-    transform: scale(1);
-  }
-
-  50% {
-    opacity: 0.8;
-
-    transform: scale(1.04);
-  }
-
-}
-
-@keyframes wolfPopIn {
-
+@keyframes wolfFadeIn {
   from {
     opacity: 0;
-
-    transform:
-      scale(0.96)
-      translateY(16px);
   }
 
   to {
     opacity: 1;
-
-    transform:
-      scale(1)
-      translateY(0);
   }
-
 }
 
-@keyframes wolfMessageIn {
-
+@keyframes wolfModalIn {
   from {
     opacity: 0;
-
     transform:
-      translateY(-5px);
+      translateY(15px)
+      scale(0.97);
   }
 
   to {
     opacity: 1;
-
     transform:
-      translateY(0);
+      translateY(0)
+      scale(1);
   }
-
 }
+
 
 /* ==========================================================================
    RESPONSIVIDADE
    ========================================================================== */
 
-@media (max-width: 600px) {
-
-  .wolf-profile-page {
-    min-height: 100vh;
-
-    padding:
-      24px 14px;
+@media (max-width: 1100px) {
+  .wolf-layout-container {
+    gap: 18px;
   }
 
   .wolf-profile-card {
+    max-width: 330px;
+  }
+
+  .wolf-fichas-container {
+    padding: 24px;
+  }
+}
+
+
+@media (max-width: 900px) {
+  .wolf-profile-page {
     padding:
-      28px 20px;
-
-    border-radius: 20px;
-
-    gap: 22px;
+      24px 16px 120px;
   }
 
-  .wolf-profile-title {
-    font-size: 1.2rem;
-
-    letter-spacing: 1.2px;
+  .wolf-layout-container {
+    flex-direction: column;
   }
 
-  .wolf-avatar-circle {
-    width: 68px;
-    height: 68px;
+  .wolf-profile-card {
+    max-width: 100%;
+  }
 
-    font-size: 1.6rem;
+  .wolf-fichas-container {
+    width: 100%;
+
+    box-sizing: border-box;
+  }
+
+  .wolf-timer-widget {
+    bottom: 12px;
+    right: 12px;
+
+    width: 170px;
+  }
+}
+
+
+@media (max-width: 600px) {
+  .wolf-profile-page {
+    padding:
+      18px 12px 130px;
+  }
+
+  .wolf-profile-card {
+    padding: 24px 18px;
+
+    border-radius:
+      20px;
+  }
+
+  .wolf-fichas-container {
+    padding: 20px 16px;
+
+    border-radius:
+      20px;
+  }
+
+  .wolf-fichas-grid {
+    grid-template-columns:
+      1fr;
+  }
+
+  .wolf-fichas-header {
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    gap: 12px;
+  }
+
+  .wolf-exercicio-row {
+    padding: 10px 12px;
+
+    gap: 10px;
+  }
+
+  .wolf-exercicio-gif-wrap {
+    width: 44px;
+    height: 44px;
+  }
+
+  .wolf-exercicio-meta {
+    gap: 8px;
+  }
+
+  .wolf-click-hint {
+    display: none;
+  }
+
+  .wolf-timer-widget {
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+
+    width: auto;
+
+    padding: 12px 14px;
+
+    border-radius: 14px;
+  }
+
+  .wolf-timer-presets {
+    width: 100%;
+
+    justify-content: center;
+  }
+
+  .wolf-modal-content {
+    padding: 20px;
+
+    border-radius:
+      16px;
+  }
+
+  .wolf-modal-gif-container {
+    height: 200px;
+  }
+}
+
+
+@media (max-width: 420px) {
+  .wolf-exercicio-row {
+    align-items: flex-start;
+  }
+
+  .wolf-exercicio-numero {
+    width: 24px;
+    height: 24px;
+
+    font-size: 0.7rem;
+  }
+
+  .wolf-exercicio-gif-wrap {
+    width: 40px;
+    height: 40px;
+  }
+
+  .wolf-exercicio-nome {
+    font-size: 0.82rem;
+  }
+
+  .wolf-exercicio-grupo {
+    font-size: 0.68rem;
+  }
+
+  .wolf-exercicio-meta {
+    display: none;
   }
 
   .wolf-edit-actions {
     grid-template-columns:
       1fr;
   }
+}
 
+
+/* ==========================================================================
+   ACESSIBILIDADE
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
