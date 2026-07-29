@@ -10,7 +10,7 @@ import {
   extrairDivisao,
   normalizarRepeticoes,
   getExercicioId,
-} from '../services/exercicioAdapter';
+} from '../Services/exercicioAdapter';
 import type { Exercicio, ExercicioFicha, TreinoSalvo, CampoSerieReps, TreinoBackendItem } from '../types/exercicio';
 
 const API_EXERCICIOS_URL = import.meta.env.VITE_API_URL;
@@ -49,7 +49,8 @@ export function useTreinos() {
         if (!Array.isArray(exerciciosDoTreino) || exerciciosDoTreino.length === 0) return;
 
         const exerciciosFormatados = exerciciosDoTreino.map(mapTreinoBackendToFicha);
-        const nomeFinal = resolverNomeTreino(nomeTreino, exerciciosDoTreino);
+        // ✅ Corrigido: Passando apenas 1 argumento conforme esperado pela função
+        const nomeFinal = resolverNomeTreino(nomeTreino);
 
         todosExerciciosFicha.push(...exerciciosFormatados);
         historicoMapeado.push({

@@ -1,3 +1,4 @@
+// Pages/Perfil/Perfil.tsx
 import type { JSX } from 'react/jsx-runtime';
 import { useState, type MouseEvent } from 'react';
 import { useNavigate } from "react-router-dom";
@@ -7,13 +8,12 @@ import { updateProfile, deleteProfile, type UserProfile } from '../../Services/a
 import { useTreinos } from '../../Hooks/useTreinos';
 import { getGifPorId, getGifPorNome } from '../../Services/exercicioService';
 
-import RestTimer from '../../components/RestTimer/RestTimer';
-import ExercicioModal, { type ExercicioItem } from '../../components/ExercicioModal/ExercicioModal';
+import RestTimer from '../../Components/RestTimer/RestTimer';
+import ExercicioModal, { type ExercicioItem } from '../../Components/ExercicioModal/ExercicioModal';
 
 import './Perfil.css';
 import Logo from '../../../public/Logo.png';
 
-// Decodificação do Token JWT
 const parseUserFromToken = (token: string): UserProfile | null => {
   try {
     const tokenValue = token.trim();
@@ -71,7 +71,6 @@ export default function Perfil(): JSX.Element {
   const { logout } = useAuth();
   const { historicoTreinos, loadingTreinos, actions: treinoActions } = useTreinos();
 
-  // Estados Perfil
   const initialProfile = getInitialProfileState();
   const [userData, setUserData] = useState<UserProfile | null>(initialProfile.userData);
   const [error, setError] = useState<string | null>(initialProfile.error);
@@ -81,15 +80,12 @@ export default function Perfil(): JSX.Element {
   const [email, setEmail] = useState(initialProfile.userData?.email || '');
   const [loading, setLoading] = useState(false);
 
-  // Fichas & Modal GIF
   const [fichaSelecionadaId, setFichaSelecionadaId] = useState<number | null>(null);
   const [exercicioModal, setExercicioModal] = useState<ExercicioItem | null>(null);
   const [loadingGif, setLoadingGif] = useState<boolean>(false);
 
-  // Estado para os Exercícios Concluídos (Checklist)
   const [exerciciosConcluidos, setExerciciosConcluidos] = useState<(string | number)[]>([]);
 
-  // Lógica para marcar/desmarcar o exercício como concluído
   const handleToggleConcluido = (e: MouseEvent, idExercicio: string | number) => {
     e.stopPropagation();
     setExerciciosConcluidos((prev) =>
@@ -99,7 +95,6 @@ export default function Perfil(): JSX.Element {
     );
   };
 
-  // Abrir Modal e Carregar GIF Dinâmico da API
   const handleAbrirExercicioModal = async (exercicio: ExercicioItem) => {
     setExercicioModal(exercicio);
 
@@ -123,7 +118,6 @@ export default function Perfil(): JSX.Element {
     setLoadingGif(false);
   };
 
-  // Ações de Usuário
   const handleLogout = () => {
     localStorage.removeItem('@wolf:user');
     logout();
@@ -199,7 +193,6 @@ export default function Perfil(): JSX.Element {
   return (
     <div className="wolf-profile-page">
       <div className="wolf-layout-container">
-        {/* CARD LATERAL - PERFIL */}
         <aside className="wolf-profile-card">
           <div className="wolf-logo-container">
             <img src={Logo} alt="Logo Projeto" className="wolf-logo-img" />
@@ -291,7 +284,6 @@ export default function Perfil(): JSX.Element {
           </div>
         </aside>
 
-        {/* ÁREA EXPANDIDA DA FICHA */}
         <main className="wolf-fichas-container">
           <div className="wolf-fichas-header">
             {fichaSelecionada ? (
@@ -321,7 +313,6 @@ export default function Perfil(): JSX.Element {
             <p className="wolf-fichas-empty">Você ainda não salvou nenhuma ficha de treino.</p>
           )}
 
-          {/* GRID DE CARDS DAS FICHAS */}
           {!loadingTreinos && !fichaSelecionada && historicoTreinos.length > 0 && (
             <div className="wolf-fichas-grid">
               {historicoTreinos.map((treino) => (
@@ -350,7 +341,6 @@ export default function Perfil(): JSX.Element {
             </div>
           )}
 
-          {/* LISTA DOS EXERCÍCIOS DA FICHA SELECIONADA */}
           {!loadingTreinos && fichaSelecionada && (
             <div className="wolf-exercicios-list">
               {fichaSelecionada.exercicios.map((exercicio, index) => {
@@ -361,7 +351,7 @@ export default function Perfil(): JSX.Element {
                   <div
                     key={String(exercicioId)}
                     className={`wolf-exercicio-row ${isConcluido ? 'wolf-exercicio-concluido' : ''}`}
-                    onClick={() => handleAbrirExercicioModal(exercicio as ExercicioItem)}
+                    onClick={() => handleAbrirExercicioModal(exercicio as unknown as ExercicioItem)}
                   >
                     <button
                       type="button"
@@ -411,7 +401,6 @@ export default function Perfil(): JSX.Element {
         </main>
       </div>
 
-      {/* COMPONENTES EXTRAÍDOS */}
       <RestTimer />
 
       {exercicioModal && (
