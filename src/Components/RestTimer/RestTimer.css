@@ -1,0 +1,129 @@
+/* ==========================================================================
+   TEMPORIZADOR FLUTUANTE
+   ========================================================================== */
+
+.wolf-timer-widget {
+  position: fixed;
+  bottom: 120px;
+  right: 40px;
+  width: 170px;
+  padding: 16px;
+  background: linear-gradient(145deg, rgba(12, 18, 27, 0.97), rgba(6, 10, 16, 0.98));
+  border: 1px solid rgba(0, 210, 255, 0.3);
+  border-radius: 18px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6), 0 0 25px rgba(0, 210, 255, 0.08);
+  backdrop-filter: blur(16px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  z-index: 99;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.wolf-timer-widget:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65), 0 0 30px rgba(0, 210, 255, 0.12);
+}
+
+.wolf-timer-header {
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: var(--wolf-muted);
+  letter-spacing: 1px;
+}
+
+.wolf-timer-display {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--wolf-primary);
+  font-family: monospace;
+  text-shadow: 0 0 15px rgba(0, 210, 255, 0.25);
+}
+
+.wolf-timer-presets {
+  display: flex;
+  gap: 6px;
+}
+
+.wolf-timer-presets button {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #cbd5e1;
+  padding: 5px 8px;
+  border-radius: 6px;
+  font-size: 0.7rem;
+  cursor: pointer;
+  transition: var(--wolf-transition);
+}
+
+.wolf-timer-presets button:hover {
+  background: rgba(0, 210, 255, 0.12);
+  color: var(--wolf-primary);
+  border-color: rgba(0, 210, 255, 0.25);
+}
+
+.wolf-timer-controls {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
+.wolf-btn-timer-action {
+  flex: 1;
+  background: var(--wolf-primary);
+  border: none;
+  color: #071018;
+  font-weight: 700;
+  padding: 7px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.78rem;
+  transition: var(--wolf-transition);
+}
+
+.wolf-btn-timer-action:hover {
+  background: #38ddff;
+  transform: translateY(-1px);
+  box-shadow: 0 5px 15px rgba(0, 210, 255, 0.2);
+}
+
+.wolf-btn-timer-reset {
+  background: rgba(255, 255, 255, 0.06);
+  border: none;
+  color: var(--wolf-muted);
+  padding: 6px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.78rem;
+  transition: var(--wolf-transition);
+}
+
+.wolf-btn-timer-reset:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+@media (max-width: 900px) {
+  .wolf-timer-widget {
+    bottom: 12px;
+    right: 12px;
+    width: 170px;
+  }
+}
+
+@media (max-width: 600px) {
+  .wolf-timer-widget {
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    width: auto;
+    padding: 12px 14px;
+    border-radius: 14px;
+  }
+
+  .wolf-timer-presets {
+    width: 100%;
+    justify-content: center;
+  }
+}

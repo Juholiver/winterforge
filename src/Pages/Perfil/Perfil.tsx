@@ -1,31 +1,17 @@
 import type { JSX } from 'react/jsx-runtime';
-import { useState, useEffect, type MouseEvent } from 'react';
+import { useState, type MouseEvent } from 'react';
+import { useNavigate } from "react-router-dom";
 
 import { useAuth } from '../../Context/AuthContext';
-import {
-  updateProfile,
-  deleteProfile,
-  type UserProfile,
-} from '../../Services/authService';
+import { updateProfile, deleteProfile, type UserProfile } from '../../Services/authService';
 import { useTreinos } from '../../Hooks/useTreinos';
 import { getGifPorId, getGifPorNome } from '../../Services/exercicioService';
-import { useNavigate } from "react-router-dom";
+
+import RestTimer from '../../components/RestTimer/RestTimer';
+import ExercicioModal, { type ExercicioItem } from '../../components/ExercicioModal/ExercicioModal';
 
 import './Perfil.css';
 import Logo from '../../../public/Logo.png';
-
-// Interfaces
-interface ExercicioItem {
-  id?: string | number;
-  exercicioId?: string | number;
-  nome: string;
-  grupoMuscular?: string;
-  gif?: string;
-  seriesCustom?: number;
-  seriesRecomendadas?: number;
-  repsCustom?: string | number;
-  repeticoes?: string | number;
-}
 
 // Decodificação do Token JWT
 const parseUserFromToken = (token: string): UserProfile | null => {
@@ -103,60 +89,9 @@ export default function Perfil(): JSX.Element {
   // Estado para os Exercícios Concluídos (Checklist)
   const [exerciciosConcluidos, setExerciciosConcluidos] = useState<(string | number)[]>([]);
 
-  // Temporizador de Descanso
-  const [tempoRestante, setTempoRestante] = useState<number>(60);
-  const [timerAtivo, setTimerAtivo] = useState<boolean>(false);
-  const [tempoInicial, setTempoInicial] = useState<number>(60);
-
-  // Lógica do Temporizador
-  useEffect(() => {
-    let interval: any = null;
-    if (timerAtivo && tempoRestante > 0) {
-      interval = setInterval(() => {
-        setTempoRestante((prev) => prev - 1);
-      }, 1000);
-    } else if (tempoRestante === 0 && timerAtivo) {
-      setTimerAtivo(false);
-      tocarBeep();
-    }
-    return () => clearInterval(interval);
-  }, [timerAtivo, tempoRestante]);
-
-  const tocarBeep = () => {
-    try {
-      const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
-      const osc = ctx.createOscillator();
-      osc.type = 'sine';
-      osc.frequency.value = 800;
-      osc.connect(ctx.destination);
-      osc.start();
-      osc.stop(ctx.currentTime + 0.4);
-    } catch {
-      console.log('Áudio não suportado no navegador');
-    }
-  };
-
-  const iniciarTimer = (segundos: number) => {
-    setTempoInicial(segundos);
-    setTempoRestante(segundos);
-    setTimerAtivo(true);
-  };
-
-  const toggleTimer = () => setTimerAtivo(!timerAtivo);
-  const resetTimer = () => {
-    setTimerAtivo(false);
-    setTempoRestante(tempoInicial);
-  };
-
-  const formatarTempo = (segundos: number) => {
-    const mins = Math.floor(segundos / 60);
-    const secs = segundos % 60;
-    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-  };
-
   // Lógica para marcar/desmarcar o exercício como concluído
   const handleToggleConcluido = (e: MouseEvent, idExercicio: string | number) => {
-    e.stopPropagation(); // Impede a abertura do modal ao clicar no botão de check
+    e.stopPropagation();
     setExerciciosConcluidos((prev) =>
       prev.includes(idExercicio)
         ? prev.filter((id) => id !== idExercicio)
@@ -356,7 +291,7 @@ export default function Perfil(): JSX.Element {
           </div>
         </aside>
 
-        {/* ÁREA EXPANDIDA DA FICHA FORA DO CONTAINER */}
+        {/* ÁREA EXPANDIDA DA FICHA */}
         <main className="wolf-fichas-container">
           <div className="wolf-fichas-header">
             {fichaSelecionada ? (
@@ -428,7 +363,6 @@ export default function Perfil(): JSX.Element {
                     className={`wolf-exercicio-row ${isConcluido ? 'wolf-exercicio-concluido' : ''}`}
                     onClick={() => handleAbrirExercicioModal(exercicio as ExercicioItem)}
                   >
-                    {/* BOTÃO CHECKBOX INTERATIVO */}
                     <button
                       type="button"
                       className={`wolf-checkbox-btn ${isConcluido ? 'checked' : ''}`}
@@ -477,71 +411,15 @@ export default function Perfil(): JSX.Element {
         </main>
       </div>
 
-      {/* TEMPORIZADOR DE DESCANSO FLUTUANTE */}
-      <div className="wolf-timer-widget">
-        <div className="wolf-timer-header">⏱️ DESCANSO</div>
-        <div className="wolf-timer-display">{formatarTempo(tempoRestante)}</div>
-        <div className="wolf-timer-presets">
-          <button type="button" onClick={() => iniciarTimer(30)}>30s</button>
-          <button type="button" onClick={() => iniciarTimer(60)}>60s</button>
-          <button type="button" onClick={() => iniciarTimer(90)}>90s</button>
-        </div>
-        <div className="wolf-timer-controls">
-          <button type="button" onClick={toggleTimer} className="wolf-btn-timer-action">
-            {timerAtivo ? 'Pausar' : 'Iniciar'}
-          </button>
-          <button type="button" onClick={resetTimer} className="wolf-btn-timer-reset">
-            Reset
-          </button>
-        </div>
-      </div>
+      {/* COMPONENTES EXTRAÍDOS */}
+      <RestTimer />
 
-      {/* MODAL COM GIF DEMONSTRATIVO DO EXERCÍCIO */}
       {exercicioModal && (
-        <div className="wolf-modal-overlay" onClick={() => setExercicioModal(null)}>
-          <div className="wolf-modal-content" onClick={(e) => e.stopPropagation()}>
-            <button
-              type="button"
-              className="wolf-modal-close"
-              onClick={() => setExercicioModal(null)}
-            >
-              ×
-            </button>
-            <h3 className="wolf-modal-title">{exercicioModal.nome}</h3>
-            <span className="wolf-modal-subtitle">{exercicioModal.grupoMuscular || 'Musculação'}</span>
-
-            <div className="wolf-modal-gif-container">
-              {exercicioModal.gif ? (
-                <img src={exercicioModal.gif} alt={exercicioModal.nome} className="wolf-modal-gif" />
-              ) : loadingGif ? (
-                <div className="wolf-profile-state">
-                  <div className="wolf-spinner" />
-                  <span>Buscando GIF...</span>
-                </div>
-              ) : (
-                <div className="wolf-modal-no-gif">
-                  <span>🐺</span>
-                  <p>Demonstração em GIF indisponível para este exercício.</p>
-                </div>
-              )}
-            </div>
-
-            <div className="wolf-modal-details">
-              <div>
-                <span className="wolf-meta-label">SÉRIES</span>
-                <strong>{exercicioModal.seriesCustom || exercicioModal.seriesRecomendadas || '-'}</strong>
-              </div>
-              <div>
-                <span className="wolf-meta-label">REPETIÇÕES</span>
-                <strong>{exercicioModal.repsCustom || exercicioModal.repeticoes || '-'}</strong>
-              </div>
-            </div>
-
-            <button type="button" className="wolf-btn-save" onClick={() => setExercicioModal(null)}>
-              Fechar
-            </button>
-          </div>
-        </div>
+        <ExercicioModal
+          exercicio={exercicioModal}
+          loadingGif={loadingGif}
+          onClose={() => setExercicioModal(null)}
+        />
       )}
     </div>
   );

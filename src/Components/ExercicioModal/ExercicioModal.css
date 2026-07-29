@@ -1,0 +1,130 @@
+/* ==========================================================================
+   MODAL
+   ========================================================================== */
+
+.wolf-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(3, 7, 12, 0.86);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  animation: wolfFadeIn 0.2s ease;
+}
+
+.wolf-modal-content {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  background: linear-gradient(145deg, rgba(18, 24, 32, 0.98), rgba(8, 12, 18, 0.99));
+  border: 1px solid rgba(0, 210, 255, 0.35);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.8), 0 0 35px rgba(0, 210, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  animation: wolfModalIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.wolf-modal-close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 50%;
+  color: var(--wolf-muted-dark);
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: var(--wolf-transition);
+}
+
+.wolf-modal-close:hover {
+  color: #fff;
+  background: rgba(239, 68, 68, 0.12);
+  border-color: rgba(239, 68, 68, 0.25);
+  transform: rotate(90deg);
+}
+
+.wolf-modal-title {
+  margin: 0;
+  color: var(--wolf-text);
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+.wolf-modal-subtitle {
+  color: var(--wolf-primary);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  margin-top: -8px;
+  letter-spacing: 0.5px;
+}
+
+.wolf-modal-gif-container {
+  width: 100%;
+  height: 240px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: radial-gradient(circle, rgba(0, 210, 255, 0.03), #0f1722);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wolf-modal-gif {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.wolf-modal-no-gif {
+  text-align: center;
+  color: var(--wolf-muted-dark);
+}
+
+.wolf-modal-no-gif span {
+  font-size: 2.5rem;
+}
+
+.wolf-modal-details {
+  display: flex;
+  justify-content: space-around;
+  padding: 14px;
+  background: rgba(7, 11, 17, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 10px;
+}
+
+.wolf-modal-details div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+
+.wolf-modal-details strong {
+  color: var(--wolf-text);
+  font-size: 1.1rem;
+}
+
+@media (max-width: 600px) {
+  .wolf-modal-content {
+    padding: 20px;
+    border-radius: 16px;
+  }
+
+  .wolf-modal-gif-container {
+    height: 200px;
+  }
+}
