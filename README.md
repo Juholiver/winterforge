@@ -1,75 +1,100 @@
-# React + TypeScript + Vite
+Markdown
+# 🐺 Winterforge / Cyber Wolf - Workout Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Plataforma web moderna e interativa para gerenciamento de fichas de treino, acompanhamento de rotinas de musculação e execução de exercícios em tempo real.
 
-Currently, two official plugins are available:
+O sistema conta com autenticação de usuários, temporizador de descanso integrado, visualização de GIFs explicativos de exercícios e personalização de fichas.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## 🚀 Funcionalidades Principais
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- 🔐 **Autenticação de Usuários:** Cadastro, Login, controle de sessão via JWT e rotas protegidas (`ProtectedRoute`).
+- 🏋️‍♂️ **Gerenciamento de Fichas de Treino:** Criação, exclusão e acompanhamento de fichas com métricas de séries, repetições e grupos musculares.
+- ✅ **Checklist de Treino Ativo:** Marcação dinâmica de exercícios concluídos em tempo real.
+- ⏱️ **Temporizador de Descanso (`RestTimer`):** Widget flutuante com contagem regressiva, alertas sonoros e presets de tempo (30s, 60s, 90s).
+- 🎬 **Modal de Exercícios (`ExercicioModal`):** Exibição dinâmica de detalhes e GIFs demonstrativos dos movimentos através da integração com API externa.
+- 👤 **Gestão de Perfil:** Atualização de dados pessoais e personalização do atleta.
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🛠️ Tecnologias Utilizadas
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **Frontend:** [React](https://react.dev/) + [TypeScript](https://www.typescriptlang.org/)
+- **Build Tool:** [Vite](https://vitejs.dev/)
+- **Roteamento:** [React Router](https://reactrouter.com/)
+- **Estilização:** CSS3 (Variáveis customizadas e design responsivo)
+- **Linter & Padronização:** ESLint
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 📁 Estrutura do Projeto
 
-```
+```text
+src/
+├── assets/          # Imagens, ícones e recursos estáticos
+├── Components/      # Componentes reutilizáveis do sistema
+│   ├── Cards/
+│   ├── ExercicioModal/
+│   ├── FichaTreino/
+│   ├── Filtros/
+│   ├── ProtectedRoute/
+│   └── RestTimer/
+├── Context/         # Contextos globais (ex: AuthContext)
+├── Hooks/           # Custom Hooks (ex: useTreinos)
+├── Pages/           # Páginas principais da aplicação
+│   ├── Exercicios/
+│   ├── Login/
+│   ├── Perfil/
+│   └── SingUp/
+├── Services/        # Comunicação com APIs e consumo de dados
+│   ├── authApi.ts
+│   ├── authService.ts
+│   ├── exercicioAdapter.ts
+│   ├── exercicioService.ts
+│   └── treinoService.ts
+├── types/           # Definições de interfaces e tipos TypeScript
+│   └── exercicio.ts
+├── App.tsx          # Componente raiz e definição de rotas
+└── main.tsx         # Ponto de entrada da aplicação React
+⚙️ Como Executar o Projeto Localmente
+Pré-requisitos
+Node.js (versão 18 ou superior)
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Gerenciador de pacotes npm ou yarn
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Passo a Passo
+Clone o repositório:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Bash
+git clone [https://github.com/seu-usuario/seu-repositorio.git](https://github.com/seu-usuario/seu-repositorio.git)
+cd seu-repositorio
+Instale as dependências:
 
-```
+Bash
+npm install
+Configure as Variáveis de Ambiente:
+Crie um arquivo .env na raiz do projeto baseado nas definições de endpoint da API:
+
+Snippet de código
+VITE_API_URL=http://localhost:5000/api
+Inicie o servidor de desenvolvimento:
+
+Bash
+npm run dev
+Acesse a aplicação:
+Abra o seu navegador e acesse http://localhost:5173.
+
+📜 Scripts Disponíveis
+No diretório do projeto, você pode executar:
+
+npm run dev: Inicia o servidor de desenvolvimento do Vite.
+
+npm run build: Compila a aplicação para produção na pasta dist.
+
+npm run lint: Executa a verificação do ESLint para encontrar erros no código.
+
+npm run preview: Visualiza a versão de compilação de produção localmente.
+
+👨‍💻 Desenvolvedor
+Desenvolvido por José Mário 👋
