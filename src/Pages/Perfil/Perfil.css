@@ -1625,6 +1625,54 @@
     0 0 15px rgba(0, 210, 255, 0.1);
 }
 
+/* Botão estilo Checkbox no lugar do número */
+.wolf-checkbox-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid rgba(0, 212, 255, 0.4);
+  background: transparent;
+  color: #00d4ff;
+  font-weight: bold;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  flex-shrink: 0;
+}
+
+.wolf-checkbox-btn:hover {
+  border-color: #00ff88;
+  color: #00ff88;
+  transform: scale(1.08);
+}
+
+/* Quando marcado como concluído */
+.wolf-checkbox-btn.checked {
+  background: #00ff88;
+  border-color: #00ff88;
+  color: #060a10;
+  box-shadow: 0 0 12px rgba(0, 255, 136, 0.4);
+}
+
+/* Destaque Verde para o Card do Exercício Concluído */
+.wolf-exercicio-row.wolf-exercicio-concluido {
+  border-color: rgba(0, 255, 136, 0.5);
+  background: linear-gradient(90deg, rgba(0, 255, 136, 0.08) 0%, rgba(13, 17, 23, 0.95) 100%);
+  box-shadow: 0 4px 15px rgba(0, 255, 136, 0.1);
+}
+
+.wolf-exercicio-row.wolf-exercicio-concluido .wolf-exercicio-nome {
+  text-decoration: line-through;
+  color: #a0aec0;
+}
+
+.wolf-exercicio-row.wolf-exercicio-concluido .wolf-exercicio-grupo {
+  color: #00ff88;
+}
+
 
 /* ==========================================================================
    ANIMAÇÕES

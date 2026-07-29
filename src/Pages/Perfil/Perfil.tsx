@@ -100,6 +100,9 @@ export default function Perfil(): JSX.Element {
   const [exercicioModal, setExercicioModal] = useState<ExercicioItem | null>(null);
   const [loadingGif, setLoadingGif] = useState<boolean>(false);
 
+  // Estado para os Exercícios Concluídos (Checklist)
+  const [exerciciosConcluidos, setExerciciosConcluidos] = useState<(string | number)[]>([]);
+
   // Temporizador de Descanso
   const [tempoRestante, setTempoRestante] = useState<number>(60);
   const [timerAtivo, setTimerAtivo] = useState<boolean>(false);
@@ -149,6 +152,16 @@ export default function Perfil(): JSX.Element {
     const mins = Math.floor(segundos / 60);
     const secs = segundos % 60;
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  // Lógica para marcar/desmarcar o exercício como concluído
+  const handleToggleConcluido = (e: MouseEvent, idExercicio: string | number) => {
+    e.stopPropagation(); // Impede a abertura do modal ao clicar no botão de check
+    setExerciciosConcluidos((prev) =>
+      prev.includes(idExercicio)
+        ? prev.filter((id) => id !== idExercicio)
+        : [...prev, idExercicio]
+    );
   };
 
   // Abrir Modal e Carregar GIF Dinâmico da API
@@ -405,47 +418,60 @@ export default function Perfil(): JSX.Element {
           {/* LISTA DOS EXERCÍCIOS DA FICHA SELECIONADA */}
           {!loadingTreinos && fichaSelecionada && (
             <div className="wolf-exercicios-list">
-              {fichaSelecionada.exercicios.map((exercicio, index) => (
-                <div
-                  key={String(exercicio.exercicioId ?? exercicio.id ?? index)}
-                  className="wolf-exercicio-row"
-                  onClick={() => handleAbrirExercicioModal(exercicio as ExercicioItem)}
-                >
-                  <span className="wolf-exercicio-numero">{index + 1}</span>
+              {fichaSelecionada.exercicios.map((exercicio, index) => {
+                const exercicioId = exercicio.exercicioId ?? exercicio.id ?? index;
+                const isConcluido = exerciciosConcluidos.includes(exercicioId);
 
-                  <div className="wolf-exercicio-gif-wrap">
-                    {exercicio.gif ? (
-                      <img src={exercicio.gif} alt={exercicio.nome} className="wolf-exercicio-gif" />
-                    ) : (
-                      <div className="wolf-exercicio-gif-placeholder">🐺</div>
-                    )}
-                  </div>
+                return (
+                  <div
+                    key={String(exercicioId)}
+                    className={`wolf-exercicio-row ${isConcluido ? 'wolf-exercicio-concluido' : ''}`}
+                    onClick={() => handleAbrirExercicioModal(exercicio as ExercicioItem)}
+                  >
+                    {/* BOTÃO CHECKBOX INTERATIVO */}
+                    <button
+                      type="button"
+                      className={`wolf-checkbox-btn ${isConcluido ? 'checked' : ''}`}
+                      onClick={(e) => handleToggleConcluido(e, exercicioId)}
+                      title={isConcluido ? "Marcar como não feito" : "Marcar como concluído"}
+                    >
+                      {isConcluido ? '✓' : index + 1}
+                    </button>
 
-                  <div className="wolf-exercicio-info">
-                    <span className="wolf-exercicio-nome">{exercicio.nome}</span>
-                    <span className="wolf-exercicio-grupo">
-                      {exercicio.grupoMuscular || 'Grupo não informado'}
-                    </span>
-                  </div>
+                    <div className="wolf-exercicio-gif-wrap">
+                      {exercicio.gif ? (
+                        <img src={exercicio.gif} alt={exercicio.nome} className="wolf-exercicio-gif" />
+                      ) : (
+                        <div className="wolf-exercicio-gif-placeholder">🐺</div>
+                      )}
+                    </div>
 
-                  <div className="wolf-exercicio-meta">
-                    <div className="wolf-exercicio-meta-item">
-                      <span className="wolf-meta-label">Séries</span>
-                      <span className="wolf-meta-value">
-                        {exercicio.seriesCustom || exercicio.seriesRecomendadas}
+                    <div className="wolf-exercicio-info">
+                      <span className="wolf-exercicio-nome">{exercicio.nome}</span>
+                      <span className="wolf-exercicio-grupo">
+                        {exercicio.grupoMuscular || 'Grupo não informado'}
                       </span>
                     </div>
-                    <div className="wolf-exercicio-meta-item">
-                      <span className="wolf-meta-label">Reps</span>
-                      <span className="wolf-meta-value">
-                        {exercicio.repsCustom || exercicio.repeticoes}
-                      </span>
-                    </div>
-                  </div>
 
-                  <span className="wolf-click-hint">Ver GIF ➔</span>
-                </div>
-              ))}
+                    <div className="wolf-exercicio-meta">
+                      <div className="wolf-exercicio-meta-item">
+                        <span className="wolf-meta-label">Séries</span>
+                        <span className="wolf-meta-value">
+                          {exercicio.seriesCustom || exercicio.seriesRecomendadas}
+                        </span>
+                      </div>
+                      <div className="wolf-exercicio-meta-item">
+                        <span className="wolf-meta-label">Reps</span>
+                        <span className="wolf-meta-value">
+                          {exercicio.repsCustom || exercicio.repeticoes}
+                        </span>
+                      </div>
+                    </div>
+
+                    <span className="wolf-click-hint">Ver GIF ➔</span>
+                  </div>
+                );
+              })}
             </div>
           )}
         </main>
